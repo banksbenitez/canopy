@@ -9,7 +9,7 @@
 Colors come from three CSS custom properties, with fallbacks for the light version:
 
 ```css
---icon-primary    /* main shapes   (fallback #1E4D38) */
+--icon-primary    /* main shapes   (fallback #265B42) */
 --icon-secondary  /* second tone   (fallback #8FB39B) */
 --icon-cutout     /* knocked-out details: transcript lines, the play triangle in Clips. Set to the background color. (fallback #FFFFFF) */
 /* Orange (#F0562B) is fixed inside the icons that carry the live dot. */
@@ -19,10 +19,10 @@ Set them on the section, by background. (The reference HTML in `reference/static
 
 | Background | --icon-primary | --icon-secondary | --icon-cutout |
 |---|---|---|---|
-| Paper `#F1F2EC` | `#1E4D38` | `#8FB39B` | `#F1F2EC` |
-| White `#FFFFFF` | `#1E4D38` | `#8FB39B` | `#FFFFFF` |
+| Paper `#F1F2EC` | `#265B42` | `#8FB39B` | `#F1F2EC` |
+| White `#FFFFFF` | `#265B42` | `#8FB39B` | `#FFFFFF` |
 | Ink `#121C17` | `#F1F2EC` | `#4E7461` | `#121C17` |
-| Canopy `#1E4D38` | `#F1F2EC` | `#8FB39B` | `#1E4D38` |
+| Canopy `#265B42` | `#F1F2EC` | `#8FB39B` | `#265B42` |
 
 ## The set
 

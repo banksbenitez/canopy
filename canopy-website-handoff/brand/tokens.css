@@ -19,7 +19,7 @@
 
 :root {
   /* Core palette */
-  --canopy: #1E4D38;      /* primary green: hero stage, mark, big fields */
+  --canopy: #265B42;      /* primary green: hero stage, mark, big fields */
   --paper: #F1F2EC;       /* default page ground; text on green/ink */
   --ink: #121C17;         /* text; control rail; studio sections */
   --fern: #CFDCCF;        /* quiet fills; secondary text on green */
