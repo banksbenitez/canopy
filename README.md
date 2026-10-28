@@ -44,7 +44,7 @@ Edit `src/config.ts`:
 | `RENEWAL_TERMS` | `[After the first term: YOUR RENEWAL TERMS]` (Pricing FAQ) |
 | `FORM_ENDPOINT` | `/` (Netlify Forms). Change it to use Formspree, a serverless function or a CRM |
 
-Also confirm the "20 minutes" call length, the "~3 weeks out" timing and the 8-week example schedule (`src/data/calendar.ts`).
+Also confirm the "20 minutes" call length and the "45–60 days" notice period (`src/data/steps.ts`, `src/data/faq.ts`).
 
 ## Analytics
 

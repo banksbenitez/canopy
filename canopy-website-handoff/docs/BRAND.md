@@ -12,7 +12,7 @@ A webinar is a live broadcast, so the brand borrows from the studio, not from Sa
 
 | Name | Hex | RGB | Use |
 |---|---|---|---|
-| Canopy | `#1E4D38` | 30 77 56 | Primary fields, the mark, hero stage |
+| Canopy | `#265B42` | 38 91 66 | Primary fields, the mark, hero stage |
 | Paper | `#F1F2EC` | 241 242 236 | Default ground; text on Canopy and Ink |
 | Ink | `#121C17` | 18 28 23 | Text; the control rail; studio sections |
 | Fern | `#CFDCCF` | 207 220 207 | Quiet fills; secondary text on Canopy |

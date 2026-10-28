@@ -1,0 +1,8 @@
+---
+// The closing call-to-action, shared by Home, How it works and Pricing.
+import ClosingCard from './ClosingCard.astro';
+const { scrubber } = Astro.props;
+---
+<ClosingCard id="book" heading="Get more from your next webinar." buttonLabel="Book the call" scrubber={scrubber}>
+  Book a 20-minute call. Tell us how you run webinars today, and we'll show you where Canopy would add the most.
+</ClosingCard>

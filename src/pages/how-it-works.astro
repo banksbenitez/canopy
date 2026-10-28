@@ -2,62 +2,26 @@
 import Base from '../layouts/Base.astro';
 import SplitHero from '../components/SplitHero.astro';
 import Scrubber from '../components/Scrubber.astro';
-import ClosingCard from '../components/ClosingCard.astro';
+import Closing from '../components/Closing.astro';
 import Footer from '../components/Footer.astro';
+import Icon from '../components/Icon.astro';
+import { STAGES } from '../data/stages';
+import { STEPS } from '../data/steps';
 
-const CHAPTERS = [
-  { time: 'T−3 wks', title: 'Fill the room', href: '#before' },
-  { time: 'T 0', title: 'Run the room', href: '#live', live: true },
-  { time: 'T+', title: 'Work the recording', href: '#after' },
-  { time: 'Month 0', title: 'The setup', href: '#setup' },
-];
+const numbered = STEPS.map((step, i) => ({ ...step, n: i + 1 }));
 
-const PHASES = [
-  {
-    id: 'before',
-    tone: 'paper',
-    scrubber: { time: 'T−3 wks', label: '01 · Before', pct: 10 },
-    title: 'Fill the room.',
-    intro: 'Every pre-webinar task, handled, so the right people register and actually show up.',
-    yourPart: 'Pick the topic and speakers. Approve the copy. Send it to your audience.',
-    items: [
-      ['Registration pages', 'Branded and customized for each event.'],
-      ['Email sequences', 'Confirmations and reminders that get registrants to attend.'],
-      ['Speaker logistics', 'Scheduling, briefs and reminders for everyone presenting.'],
-      ['Promotional copy', 'Emails and social posts, long and short, ready for your team to share.'],
-    ],
-  },
-  {
-    id: 'live',
-    tone: 'ink',
-    scrubber: { time: 'T 0', label: '02 · Live', pct: 45, live: true },
-    title: 'Run the room.',
-    intro: 'A flawless production, so the people presenting can think about nothing but the content.',
-    yourPart: 'Give the talk.',
-    items: [
-      ['Production', 'All audio and video, with a private backstage to fix speaker issues before anyone sees them.'],
-      ['Attendee experience', 'Waiting room, chat, Q&A and polls, managed to keep people engaged.'],
-      ['Live streaming', 'Public webinars can also stream live to LinkedIn and YouTube.'],
-    ],
-  },
-  {
-    id: 'after',
-    tone: 'paper',
-    scrubber: { time: 'T+', label: '03 · After', pct: 75 },
-    title: 'Work the recording.',
-    intro: 'One live hour becomes a lasting source of trust-building content, and a list of people worth following up with.',
-    yourPart: 'Load the data into your CRM. Use what we hand you.',
-    items: [
-      ['First-party data', 'The attendee list and registration details, ready for your CRM and email platform.'],
-      ['Recording and transcript', 'The full session, plus a searchable transcript.'],
-      ['Highlight clips', 'Short cuts of the best moments, for every channel you use.'],
-      ['Follow-up emails', 'Written for you, with links to the recording, transcript and highlights.'],
-      ['Newsletter content', "The webinar's ideas, rewritten for your newsletter or linked straight in."],
-      ['Video library', 'Every past webinar and highlight in one place.'],
-      ['Analytics report', 'Who registered, who came and how they engaged.'],
-    ],
-  },
-] as const;
+const SECTIONS = STAGES.map((stage) => {
+  const steps = numbered.filter((step) => step.stage === stage.id);
+  const first = steps[0].n;
+  const last = steps[steps.length - 1].n;
+  return {
+    ...stage,
+    steps,
+    scrubberTime: first === last ? `Step ${first}` : `Steps ${first}–${last}`,
+    tone: stage.id === 'during' ? 'ink' : 'paper',
+  } as const;
+});
+const PCT = { before: 15, during: 50, after: 78 };
 
 const SETUP = [
   ['Onboarding', 'Your audience, goals and brand.'],
@@ -68,46 +32,61 @@ const SETUP = [
 ---
 <Base
   title="How it works — Canopy"
-  description="One webinar a month in three phases: fill the room, run the room, work the recording."
+  description="The same six-step process for every webinar, from kickoff 45–60 days out to follow-up within 48 hours and a report within a week."
   path="/how-it-works"
 >
   <SplitHero current="/how-it-works">
     <div class="hero-body">
       <h1 class="hero-title">How it works.</h1>
-      <p class="hero-lead">One webinar a month, in three phases. Here's exactly what we do in each, and the small part that's yours.</p>
+      <p class="hero-lead">The same process for every webinar. You'll always know what we need from you and by when.</p>
     </div>
-    <span slot="meta" class="hero-meta">Webinars-as-a-service</span>
 
     <div slot="rail" class="rail-list">
       <span class="rail-label">Chapters</span>
-      {CHAPTERS.map((ch) => (
-        <a href={ch.href} class="chapter">
-          <span class:list={['chapter-time', { live: ch.live }]}>{ch.time}</span>
-          <span class="chapter-title">{ch.title}</span>
+      {numbered.map((step) => (
+        <a href={`#step-${step.n}`} class="chapter">
+          <span class:list={['chapter-n', { live: step.stage === 'during' }]}>{step.n}</span>
+          <span class="chapter-title">{step.title}</span>
         </a>
       ))}
     </div>
   </SplitHero>
 
   <main>
-    {PHASES.map((phase) => (
-      <section id={phase.id} class:list={['phase', phase.tone]}>
+    {SECTIONS.map((section) => (
+      <section id={section.id} class:list={['phase', section.tone]}>
         <div class="container section-stack">
-          <Scrubber {...phase.scrubber} tone={phase.tone} />
+          <Scrubber
+            time={section.scrubberTime}
+            pct={PCT[section.id]}
+            tone={section.tone}
+            live={section.id === 'during'}
+          />
           <div class="phase-row">
             <div class="phase-intro">
-              <h2 class="display-l">{phase.title}</h2>
-              <p class="phase-text">{phase.intro}</p>
-              <div class="your-part"><strong>Your part</strong><span>{phase.yourPart}</span></div>
+              <span class="phase-name">{section.name}</span>
+              <h2 class="tagline">{section.tagline}</h2>
+              <div class="division">
+                <p><strong>Canopy runs:</strong> <span>{section.canopyRuns}</span></p>
+                <p><strong>You bring:</strong> <span>{section.youBring}</span></p>
+              </div>
             </div>
-            <dl class="items">
-              {phase.items.map(([name, desc]) => (
-                <div class="item">
-                  <dt>{name}</dt>
-                  <dd>{desc}</dd>
-                </div>
+            <ol class="steps" start={section.steps[0].n}>
+              {section.steps.map((step) => (
+                <li id={`step-${step.n}`} class="step">
+                  <div class="step-head">
+                    <span class="step-n">{step.n}</span>
+                    <h3>{step.title}</h3>
+                  </div>
+                  <p class="step-text">{step.text}</p>
+                  {step.items.length > 0 && (
+                    <ul class="items">
+                      {step.items.map(([item, icon]) => <li><Icon name={icon} size={32} /><span>{item}</span></li>)}
+                    </ul>
+                  )}
+                </li>
               ))}
-            </dl>
+            </ol>
           </div>
         </div>
       </section>
@@ -115,15 +94,15 @@ const SETUP = [
 
     <section id="setup" class="setup">
       <div class="container setup-stack">
-        <Scrubber time="Month 0" label="The setup" pct={92} tone="fern" />
+        <Scrubber time="Month 0" pct={92} tone="fern" />
         <div class="setup-intro">
           <h2 class="display-m">Before your first webinar.</h2>
           <p>A one-time setup builds the system every month runs on.</p>
         </div>
-        <ol class="steps">
+        <ol class="setup-steps">
           {SETUP.map(([title, text], i) => (
             <li>
-              <span class="step-n">{i + 1}</span>
+              <span class="setup-n">{i + 1}</span>
               <h3>{title}</h3>
               <p>{text}</p>
             </li>
@@ -132,80 +111,103 @@ const SETUP = [
       </div>
     </section>
 
-    <ClosingCard heading="Ready to hand it off?">
-      20 minutes · a call with Canopy · <a href="/pricing">see pricing first</a>
-    </ClosingCard>
+    <Closing />
   </main>
 
   <Footer current="/how-it-works" />
 </Base>
 
 <style>
+  ol, ul { list-style: none; margin: 0; padding: 0; }
+
   /* Rail: chapters */
   .chapter {
     display: grid;
-    grid-template-columns: 84px 1fr;
-    gap: 16px;
-    padding: 20px 0;
+    grid-template-columns: 32px 1fr;
+    gap: 12px;
+    padding: 16px 0;
     border-top: 1px solid var(--moss);
     color: var(--paper);
     text-decoration: none;
     align-items: baseline;
   }
   .chapter:last-child { border-bottom: 1px solid var(--moss); }
-  .chapter-time { font-size: var(--text-label); color: var(--lichen); font-weight: 600; }
-  .chapter-time.live { color: var(--live); }
-  .chapter-title { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
+  .chapter-n { font-size: var(--text-label); color: var(--lichen); font-weight: 600; }
+  .chapter-n.live { color: var(--live); }
+  .chapter-title { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
 
-  /* Phase sections */
+  /* Stage sections */
   .phase {
     --intro: var(--moss);
     --desc: var(--stone);
-    --name: var(--canopy);
     --rule: var(--line-strong);
     --rule-heavy: var(--ink);
+    --box: var(--white);
+    --box-border: var(--line);
+    --muted: var(--stone);
   }
+  .phase { --icon-primary: var(--canopy); --icon-secondary: #8FB39B; --icon-cutout: var(--paper); }
+  .phase.ink { --icon-primary: var(--paper); --icon-secondary: var(--line-green); --icon-cutout: var(--ink); }
   .phase.ink {
     background: var(--ink);
     color: var(--paper);
     --intro: var(--sage);
     --desc: var(--sage);
-    --name: var(--mint);
     --rule: var(--moss);
     --rule-heavy: var(--paper);
+    --box: var(--field);
+    --box-border: var(--moss);
+    --muted: var(--sage);
   }
   .phase-row { display: flex; flex-wrap: wrap; gap: 56px; align-items: flex-start; }
   .phase-intro { flex: 1 1 340px; display: flex; flex-direction: column; gap: 20px; }
-  .phase-text { margin: 0; font-size: var(--text-body); line-height: 1.55; color: var(--intro); }
-  .your-part {
-    margin-top: 12px;
-    display: grid;
-    grid-template-columns: 96px 1fr;
-    gap: 16px;
-    padding: 18px 20px;
-    background: var(--white);
-    border: 1px solid var(--line);
-    align-items: baseline;
-  }
-  .your-part strong { font-size: var(--text-label); }
-  .your-part span { font-size: 17px; line-height: 1.5; }
-  .ink .your-part { background: var(--live); color: var(--ink); border-color: var(--live); }
-  .ink .your-part span { font-weight: 700; }
+  .tagline { margin: 0; font-size: var(--display-s); line-height: 0.98; font-weight: 800; letter-spacing: var(--tracking-wordmark); }
+  .phase-name { font-size: var(--text-label); font-weight: 600; color: var(--muted); }
+  .ink .phase-name { color: var(--live); }
 
-  .items { flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; margin: 0; }
-  .item {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
-    gap: 16px;
-    padding: 18px 0;
-    border-top: 1px solid var(--rule);
-    align-items: baseline;
+  .division {
+    margin-top: 12px;
+    padding: 18px 20px;
+    background: var(--box);
+    border: 1px solid var(--box-border);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: var(--text-label);
+    line-height: 1.4;
   }
-  .item:first-child { border-top: 3px solid var(--rule-heavy); }
-  .item:last-child { border-bottom: 1px solid var(--rule); }
-  .item dt { font-size: clamp(22px, 2.2vw, 30px); font-weight: 700; letter-spacing: -0.02em; color: var(--name); }
-  .item:first-child dt { color: inherit; }
-  .item dd { margin: 0; font-size: 17px; line-height: 1.5; color: var(--desc); }
+  .division p { margin: 0; display: grid; grid-template-columns: 108px 1fr; gap: 12px; }
+  .division p:first-child strong { color: var(--muted); font-weight: 600; }
+
+  .steps { flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; }
+  .step {
+    padding: 22px 0 26px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scroll-margin-top: 24px;
+  }
+  .step:first-child { border-top: 3px solid var(--rule-heavy); }
+  .step:last-child { border-bottom: 1px solid var(--rule); }
+  .step-head { display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: baseline; }
+  .step-n { font-size: var(--text-label); font-weight: 600; color: var(--muted); }
+  .ink .step-n { color: var(--live); }
+  .step h3 { margin: 0; font-size: clamp(22px, 2.2vw, 30px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
+  .step-text { margin: 0 0 0 52px; font-size: 17px; line-height: 1.5; color: var(--desc); max-width: 620px; }
+  .items { margin-left: 52px; display: flex; flex-direction: column; }
+  .items li {
+    padding: 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: var(--text-small);
+    line-height: 1.4;
+  }
+  @media (max-width: 559px) {
+    .step-head { grid-template-columns: 1fr; gap: 4px; }
+    .step-text, .items { margin-left: 0; }
+  }
 
   /* The setup */
   .setup { background: var(--fern); }
@@ -219,17 +221,14 @@ const SETUP = [
   }
   .setup-intro h2 { max-width: 680px; }
   .setup-intro p { margin: 0; max-width: 420px; font-size: var(--text-body); line-height: 1.5; color: var(--moss); }
-  .steps {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  .setup-steps {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
     border-top: 3px solid var(--ink);
   }
-  .steps li { padding: 20px; display: flex; flex-direction: column; gap: 8px; border-left: 1px solid var(--sage); }
-  .steps li:first-child { padding-left: 0; border-left: 0; }
-  .step-n { font-size: var(--text-label); font-weight: 600; color: var(--moss); }
-  .steps h3 { margin: 0; font-size: 22px; font-weight: 700; }
-  .steps p { margin: 0; font-size: var(--text-small); line-height: 1.5; color: var(--moss); }
+  .setup-steps li { padding: 20px; display: flex; flex-direction: column; gap: 8px; border-left: 1px solid var(--sage); }
+  .setup-steps li:first-child { padding-left: 0; border-left: 0; }
+  .setup-n { font-size: var(--text-label); font-weight: 600; color: var(--moss); }
+  .setup-steps h3 { margin: 0; font-size: 22px; font-weight: 700; }
+  .setup-steps p { margin: 0; font-size: var(--text-small); line-height: 1.5; color: var(--moss); }
 </style>
