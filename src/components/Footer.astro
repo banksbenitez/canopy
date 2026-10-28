@@ -13,6 +13,9 @@ const { current, bordered = false } = Astro.props;
 const links = NAV.filter((item) => item.href !== current);
 ---
 <footer class:list={['footer', { bordered }]}>
+  <div class="statement-wrap">
+    <p class="statement"><span class="nowrap">Webinars-as-a-service</span> for <span class="nowrap">professional-services</span> firms</p>
+  </div>
   <div class="inner">
     <span class="left">
       <span class="credit">Produced with <Mark width={16} height={12} /><strong>canopy</strong></span>
@@ -28,6 +31,23 @@ const links = NAV.filter((item) => item.href !== current);
 <style>
   .footer { background: var(--ink); color: var(--sage); }
   .bordered { border-top: 1px solid var(--moss); }
+  .statement-wrap {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: clamp(40px, 6vw, 72px) var(--gutter) 0;
+  }
+  .statement {
+    margin: 0;
+    padding-bottom: clamp(32px, 4vw, 48px);
+    border-bottom: 1px solid var(--moss);
+    max-width: 900px;
+    font-size: clamp(24px, 4vw, 56px);
+    font-weight: 800;
+    letter-spacing: var(--tracking-wordmark);
+    line-height: 0.98;
+    color: var(--paper);
+  }
+  .nowrap { white-space: nowrap; }
   .inner {
     max-width: var(--container);
     margin: 0 auto;

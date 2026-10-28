@@ -40,7 +40,6 @@ const FIT = [
 >
   <SplitHero id="top" current="/" minHeight={780}>
     <div class="hero-body home-hero">
-      <span class="eyebrow">Webinars-as-a-service for professional-services firms</span>
       <h1 class="hero-title">More return from every webinar.</h1>
       <p class="hero-lead">Canopy runs the work before, during and after each webinar, from registration and reminders to production and follow-up. You get more attendees, more leads and more content from every session, and your team spends far less time on logistics.</p>
       <div class="hero-ctas">
@@ -49,7 +48,9 @@ const FIT = [
       </div>
     </div>
 
-    <ul slot="rail" class="rail-list stage-card">
+    <div slot="rail" class="rail-list">
+    <p class="rail-statement"><span class="nowrap">Webinars-as-a-service</span> for <span class="nowrap">professional-services</span> firms</p>
+    <ul class="stage-card">
       {STAGES.map((stage) => (
         <li>
           <a href={`/how-it-works#${stage.id}`} class="stage-row">
@@ -62,11 +63,13 @@ const FIT = [
         </li>
       ))}
     </ul>
+    </div>
   </SplitHero>
 
   <main>
     <!-- 2. The math -->
-    <section id="the-math" class="container section-stack">
+    <section id="the-math" class="band light">
+    <div class="container section-stack">
       <Scrubber time="01:00" label="The math" pct={12} />
       <div class="intro">
         <h2 class="display-m intro-title">Most webinars return less than they could.</h2>
@@ -97,11 +100,13 @@ const FIT = [
       </table>
 
       <p class="rule-line">Canopy runs every stage of the webinar, so your firm gets more value from each one.</p>
+    </div>
     </section>
 
     <!-- 3. Before, during, after -->
-    <section id="end-to-end" class="container section-stack">
-      <Scrubber time="02:10" label="End to end" pct={22} />
+    <section id="end-to-end" class="band dark">
+    <div class="container section-stack">
+      <Scrubber time="02:10" label="End to end" pct={22} tone="ink" />
       <div class="intro">
         <h2 class="display-m intro-title">We run all three stages of every webinar.</h2>
         <p class="intro-text">Most teams put their effort into the session itself. Attendance, though, depends mostly on what happens beforehand, and the business value depends mostly on what happens afterward. Canopy runs the operations at every stage, which is how each webinar ends up returning more.</p>
@@ -137,12 +142,13 @@ const FIT = [
       <div class="rule-row">
         <a href="/how-it-works" class="text-cta ink-link">How it works, step by step</a>
       </div>
+    </div>
     </section>
 
     <!-- 4. What each webinar produces -->
-    <section id="the-return" class="dark">
+    <section id="the-return" class="band light">
       <div class="container section-stack">
-        <Scrubber time="05:30" label="The return" pct={46} tone="ink" />
+        <Scrubber time="05:30" label="The return" pct={46} />
         <div class="intro">
           <h2 class="display-m intro-title">One webinar, eight weeks of content.</h2>
           <p class="intro-text">After every session, we hand back a set of assets your team can use for weeks, including with prospects who didn't attend.</p>
@@ -160,8 +166,9 @@ const FIT = [
     </section>
 
     <!-- 5. How it works -->
-    <section id="how-it-works" class="container section-stack">
-      <Scrubber time="07:00" label="The run-of-show" pct={60} />
+    <section id="how-it-works" class="band dark">
+    <div class="container section-stack">
+      <Scrubber time="07:00" label="The run-of-show" pct={60} tone="ink" />
       <div class="intro">
         <h2 class="display-m intro-title">The same process for every webinar.</h2>
         <p class="intro-text">You'll always know what we need from you and by when.</p>
@@ -179,10 +186,12 @@ const FIT = [
       <div class="rule-row">
         <a href="/how-it-works" class="text-cta ink-link">See the full process</a>
       </div>
+    </div>
     </section>
 
     <!-- 6. Pricing -->
-    <section id="pricing" class="container section-stack pricing">
+    <section id="pricing" class="band light">
+    <div class="container section-stack pricing">
       <Scrubber time="08:00" label="The investment" pct={70} />
       <div class="price-card">
         <div class="price-main">
@@ -210,12 +219,13 @@ const FIT = [
           </ul>
         </div>
       </div>
+    </div>
     </section>
 
     <!-- 7. Who it's for + FAQ -->
-    <section id="fit" class="fit">
+    <section id="fit" class="band dark">
       <div class="container section-stack">
-        <Scrubber time="08:40" label="The fit" pct={84} />
+        <Scrubber time="08:40" label="The fit" pct={84} tone="ink" />
         <div class="intro">
           <h2 class="display-m intro-title">For firms that already get results from webinars.</h2>
           <p class="intro-text">Canopy is for professional-services firms that have seen webinars lead to new work but can't run them on a regular schedule, usually because the logistics fall to people with full workloads.</p>
@@ -252,10 +262,9 @@ const FIT = [
   ul, ol { list-style: none; margin: 0; padding: 0; }
 
   /* Hero */
-  .home-hero { gap: 28px; margin: auto 0; }
+  .home-hero { gap: 28px; }
   .home-hero .hero-title { text-wrap: balance; }
   .home-hero .hero-lead { max-width: 640px; }
-  .eyebrow { font-size: var(--text-label); font-weight: 600; color: var(--fern); margin-bottom: -4px; }
   .hero-ctas { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; margin-top: 4px; }
   .hero-link, .hero-link:hover { color: var(--paper); font-size: 17px; }
 
@@ -264,6 +273,16 @@ const FIT = [
   .key.before { background: var(--fern); }
   .key.during { background: var(--live); }
   .key.after { background: var(--canopy); border: 1px solid var(--line-green); }
+
+  /* Hero rail: the positioning statement over the stage card */
+  .rail-statement {
+    margin: 0 0 32px;
+    font-size: clamp(24px, 2.1vw, 30px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+  .nowrap { white-space: nowrap; }
 
   /* Hero card */
   .stage-card li { border-top: 1px solid var(--moss); }
@@ -282,6 +301,25 @@ const FIT = [
   .stage-name { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
   .stage-summary { font-size: var(--text-small); color: var(--sage); line-height: 1.45; }
 
+  /* Bands: homepage sections alternate light and dark */
+  .band {
+    --fg: var(--ink);
+    --muted: var(--stone);
+    --body: var(--moss);
+    --rule: var(--line);
+    --rule-heavy: var(--ink);
+    background: var(--paper);
+    color: var(--fg);
+  }
+  .band.dark {
+    --fg: var(--paper);
+    --muted: var(--sage);
+    --body: var(--sage);
+    --rule: var(--moss);
+    --rule-heavy: var(--paper);
+    background: var(--ink);
+  }
+
   /* Section intros */
   .intro {
     display: flex;
@@ -291,7 +329,7 @@ const FIT = [
     gap: 24px 48px;
   }
   .intro-title { max-width: 720px; }
-  .intro-text { margin: 0; max-width: 440px; font-size: var(--text-body); line-height: 1.5; color: var(--moss); }
+  .intro-text { margin: 0; max-width: 440px; font-size: var(--text-body); line-height: 1.5; color: var(--body); }
   .intro-text p { margin: 0; }
   .intro-text p + p { margin-top: 16px; }
   #the-math .intro { align-items: flex-start; }
@@ -306,11 +344,11 @@ const FIT = [
     align-items: center;
     gap: 16px;
     padding-top: 8px;
-    border-top: 2px solid var(--ink);
+    border-top: 2px solid var(--rule-heavy);
   }
   .rule-line { font-size: clamp(19px, 1.8vw, 24px); font-weight: 700; letter-spacing: -0.015em; padding-top: 16px; }
   .rule-row { justify-content: flex-end; }
-  .ink-link { color: var(--ink); font-size: 17px; }
+  .ink-link, .ink-link:hover { color: var(--fg); font-size: 17px; }
 
   /* The math: comparison table */
   .compare { width: 100%; border-collapse: collapse; font-size: 17px; line-height: 1.4; }
@@ -373,8 +411,8 @@ const FIT = [
     --muted: var(--stone);
     --foot: var(--fern);
   }
-  .stage-col.before { background: var(--white); border-top: 6px solid var(--fern); }
-  .stage-col.during { background: var(--ink); color: var(--paper); border-top: 6px solid var(--live); --rule: var(--moss); --muted: var(--sage); --foot: var(--field); }
+  .stage-col.before { background: var(--white); color: var(--ink); border-top: 6px solid var(--fern); }
+  .stage-col.during { background: var(--ink); color: var(--paper); border: 1px solid var(--moss); border-top: 6px solid var(--live); --rule: var(--moss); --muted: var(--sage); --foot: var(--field); }
   .stage-col.after { background: var(--canopy); color: var(--paper); border-top: 6px solid var(--ink); --rule: var(--line-green); --muted: var(--fern); --foot: var(--canopy-shade); }
   .stage-head { display: flex; flex-direction: column; gap: 6px; }
   .stage-label { font-size: var(--text-label); font-weight: 600; color: var(--muted); display: flex; align-items: center; gap: 8px; }
@@ -401,17 +439,15 @@ const FIT = [
   .division p:first-child strong { color: var(--muted); font-weight: 600; }
 
   /* The return */
-  .dark { background: var(--ink); color: var(--paper); }
-  .dark .intro-text { color: var(--sage); }
   .assets {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
     gap: 1px;
-    background: var(--moss);
-    border: 1px solid var(--moss);
+    background: var(--line);
+    border: 1px solid var(--line);
   }
   .asset {
-    background: var(--ink);
+    background: var(--white);
     padding: 22px 20px 26px;
     display: flex;
     flex-direction: column;
@@ -421,35 +457,35 @@ const FIT = [
     .asset { min-height: 220px; }
   }
   .asset .key { margin-bottom: 8px; }
-  .key.email { background: var(--paper); }
+  .key.email { background: var(--ink); }
   .key.clip { background: var(--live); }
   .key.news { background: var(--fern); }
-  .key.data { border: 1px solid var(--lichen); }
+  .key.data { border: 1px solid var(--stone); }
   .key.library { background: var(--canopy); border: 1px solid var(--line-green); }
   .asset h3 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.015em; }
-  .asset p { margin: 0; font-size: var(--text-small); line-height: 1.5; color: var(--sage); }
+  .asset p { margin: 0; font-size: var(--text-small); line-height: 1.5; color: var(--stone); }
 
   /* Run-of-show: vertical by default, horizontal on wide screens */
   .steps { display: grid; grid-template-columns: 1fr; }
   .step {
     position: relative;
     padding: 0 0 32px 36px;
-    border-left: 3px solid var(--ink);
+    border-left: 3px solid var(--rule-heavy);
     display: flex;
     flex-direction: column;
     gap: 8px;
   }
   .step:last-child { border-left-color: transparent; padding-bottom: 0; }
   .step-marker { position: absolute; left: -10px; top: 2px; }
-  .step-dot { display: block; width: 17px; height: 17px; border-radius: 50%; background: var(--paper); border: 3px solid var(--ink); }
+  .step-dot { display: block; width: 17px; height: 17px; border-radius: 50%; background: var(--ink); border: 3px solid var(--paper); }
   .step.live .step-dot { background: var(--live); border-color: var(--live); }
-  .step-n { font-size: var(--text-label); font-weight: 600; color: var(--stone); }
-  .step.live .step-n { color: var(--ink); }
+  .step-n { font-size: var(--text-label); font-weight: 600; color: var(--muted); }
+  .step.live .step-n { color: var(--live); }
   .step h3 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.15; }
-  .step p { margin: 0; font-size: var(--text-small); line-height: 1.5; color: var(--moss); max-width: 560px; }
+  .step p { margin: 0; font-size: var(--text-small); line-height: 1.5; color: var(--body); max-width: 560px; }
 
   @media (min-width: 1024px) {
-    .steps { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0 24px; border-top: 3px solid var(--ink); }
+    .steps { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0 24px; border-top: 3px solid var(--rule-heavy); }
     .step, .step:last-child { padding: 28px 0 0; border-left: 0; }
     .step-marker { left: 0; top: -10px; }
   }
@@ -490,23 +526,22 @@ const FIT = [
   .panel-list li:last-child { border-bottom: 1px solid var(--moss); }
 
   /* Fit + FAQ */
-  .fit { background: var(--white); border-top: 1px solid var(--line); }
   .fit-row { display: flex; flex-wrap: wrap; gap: 48px 56px; align-items: flex-start; }
   .fit-intro { flex: 1 1 340px; }
-  .fit-box { background: var(--paper); border-top: 3px solid var(--canopy); padding: 22px 24px; }
+  .fit-box { background: var(--field); border-top: 3px solid var(--fern); padding: 22px 24px; }
   .fit-box h3 { margin: 0 0 12px; font-size: 21px; font-weight: 700; letter-spacing: -0.015em; }
   .fit-box li {
     display: grid;
     grid-template-columns: 22px 1fr;
     gap: 10px;
     padding: 10px 0;
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--moss);
     font-size: 17px;
     line-height: 1.4;
   }
-  .fit-box li::before { content: ''; width: 10px; height: 10px; margin-top: 7px; background: var(--canopy); }
-  .faq { flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; border-top: 3px solid var(--ink); }
-  details { border-bottom: 1px solid var(--line); padding: 20px 0; }
+  .fit-box li::before { content: ''; width: 10px; height: 10px; margin-top: 7px; background: var(--fern); }
+  .faq { flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; border-top: 3px solid var(--rule-heavy); }
+  details { border-bottom: 1px solid var(--rule); padding: 20px 0; }
   summary { font-size: 21px; font-weight: 700; letter-spacing: -0.015em; min-height: 32px; cursor: pointer; }
-  details p { margin: 12px 0 0; font-size: 17px; line-height: 1.55; color: var(--moss); max-width: 640px; }
+  details p { margin: 12px 0 0; font-size: 17px; line-height: 1.55; color: var(--body); max-width: 640px; }
 </style>
