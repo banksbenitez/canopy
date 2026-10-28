@@ -1,21 +1,19 @@
 ---
-// Chapter scrubber: timestamp · progress track · section label. Decorative;
-// each section carries its own real heading.
+// Chapter scrubber: timestamp · progress track. Decorative; each section
+// carries its own real heading.
 interface Props {
   time: string;
-  label: string;
   /** Playhead position, 0–100 */
   pct: number;
   tone?: 'paper' | 'ink' | 'fern';
   /** Orange timestamp with a live dot */
   live?: boolean;
 }
-const { time, label, pct, tone = 'paper', live = false } = Astro.props;
+const { time, pct, tone = 'paper', live = false } = Astro.props;
 ---
 <div class:list={['scrubber', tone]} aria-hidden="true" style={`--pct: ${pct}%`}>
   {live ? <span class="time live"><span class="dot"></span>{time}</span> : <span>{time}</span>}
   <span class="track"><span class="fill"></span><span class="head"></span></span>
-  <span>{label}</span>
 </div>
 
 <style>

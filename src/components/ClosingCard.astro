@@ -9,7 +9,7 @@ interface Props {
   buttonLabel?: string;
   id?: string;
   /** Optional chapter scrubber above the card (Home) */
-  scrubber?: { time: string; label: string; pct: number };
+  scrubber?: { time: string; pct: number };
 }
 const { heading, buttonLabel = 'Join the call', id, scrubber } = Astro.props;
 ---

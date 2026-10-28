@@ -58,7 +58,6 @@ const SETUP = [
         <div class="container section-stack">
           <Scrubber
             time={section.scrubberTime}
-            label={section.name}
             pct={PCT[section.id]}
             tone={section.tone}
             live={section.id === 'during'}
@@ -95,7 +94,7 @@ const SETUP = [
 
     <section id="setup" class="setup">
       <div class="container setup-stack">
-        <Scrubber time="Month 0" label="The setup" pct={92} tone="fern" />
+        <Scrubber time="Month 0" pct={92} tone="fern" />
         <div class="setup-intro">
           <h2 class="display-m">Before your first webinar.</h2>
           <p>A one-time setup builds the system every month runs on.</p>

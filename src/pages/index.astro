@@ -21,6 +21,12 @@ const COMPARISON = [
   ['No clear read on what worked', 'An analytics report within a week'],
 ];
 
+const HERO_VALUES = [
+  'More attendees at every session',
+  'More leads and content from each one',
+  "Far less of your team's time on logistics",
+];
+
 const STAGE_ICONS: Record<string, IconName> = { before: 'registrants', during: 'live-stream', after: 'analytics-report' };
 
 const ASSETS: { icon: IconName; name: string; text: string }[] = [
@@ -45,7 +51,12 @@ const FIT = [
   <SplitHero id="top" current="/" minHeight={780}>
     <div class="hero-body home-hero">
       <h1 class="hero-title">More return from every webinar.</h1>
-      <p class="hero-lead">Canopy runs the work before, during and after each webinar, from registration and reminders to production and follow-up. You get more attendees, more leads and more content from every session, and your team spends far less time on logistics.</p>
+      <p class="hero-lead">Canopy runs the work before, during, and after each webinar, from registration and reminders to production and follow-up.</p>
+      <ul class="hero-values">
+        {HERO_VALUES.map((value) => (
+          <li><svg class="hero-check" width="18" height="14" viewBox="0 0 16 12" aria-hidden="true"><path d="M1.5 6.5 L6 10.5 L14.5 1.5" fill="none" stroke="currentColor" stroke-width="2.5" /></svg><span>{value}</span></li>
+        ))}
+      </ul>
       <div class="hero-ctas">
         <a href="/book" class="btn btn-live btn-lg">Book a 20-minute call</a>
         <a href="#how-it-works" class="text-cta hero-link">See how it works</a>
@@ -53,7 +64,6 @@ const FIT = [
     </div>
 
     <div slot="rail" class="rail-list">
-    <p class="rail-statement"><span class="nowrap">Webinars-as-a-service</span> for <span class="nowrap">professional-services</span> firms</p>
     <ul class="stage-card icons-ink">
       {STAGES.map((stage) => (
         <li>
@@ -74,7 +84,7 @@ const FIT = [
     <!-- 2. The math -->
     <section id="the-math" class="band light">
     <div class="container section-stack">
-      <Scrubber time="01:00" label="The math" pct={12} />
+      <Scrubber time="01:00" pct={12} />
       <div class="intro">
         <h2 class="display-m intro-title">Most webinars return less than they could.</h2>
         <div class="intro-text">
@@ -110,7 +120,7 @@ const FIT = [
     <!-- 3. Before, during, after -->
     <section id="end-to-end" class="band dark">
     <div class="container section-stack">
-      <Scrubber time="02:10" label="End to end" pct={22} tone="ink" />
+      <Scrubber time="02:10" pct={22} tone="ink" />
       <div class="intro">
         <h2 class="display-m intro-title">We run all three stages of every webinar.</h2>
         <p class="intro-text">Most teams put their effort into the session itself. Attendance, though, depends mostly on what happens beforehand, and the business value depends mostly on what happens afterward. Canopy runs the operations at every stage, which is how each webinar ends up returning more.</p>
@@ -153,7 +163,7 @@ const FIT = [
     <!-- 4. What each webinar produces -->
     <section id="the-return" class="band light">
       <div class="container section-stack">
-        <Scrubber time="05:30" label="The return" pct={46} />
+        <Scrubber time="05:30" pct={46} />
         <div class="intro">
           <h2 class="display-m intro-title">One webinar, eight weeks of content.</h2>
           <p class="intro-text">After every session, we hand back a set of assets your team can use for weeks, including with prospects who didn't attend.</p>
@@ -173,7 +183,7 @@ const FIT = [
     <!-- 5. How it works -->
     <section id="how-it-works" class="band dark">
     <div class="container section-stack">
-      <Scrubber time="07:00" label="The run-of-show" pct={60} tone="ink" />
+      <Scrubber time="07:00" pct={60} tone="ink" />
       <div class="intro">
         <h2 class="display-m intro-title">The same process for every webinar.</h2>
         <p class="intro-text">You'll always know what we need from you and by when.</p>
@@ -197,7 +207,7 @@ const FIT = [
     <!-- 6. Pricing -->
     <section id="pricing" class="band light">
     <div class="container section-stack pricing">
-      <Scrubber time="08:00" label="The investment" pct={70} />
+      <Scrubber time="08:00" pct={70} />
       <div class="price-card">
         <div class="price-main">
           <div class="lockup"><Mark width={30} height={23} /><span>canopy</span></div>
@@ -230,7 +240,7 @@ const FIT = [
     <!-- 7. Who it's for + FAQ -->
     <section id="fit" class="band dark">
       <div class="container section-stack">
-        <Scrubber time="08:40" label="The fit" pct={84} tone="ink" />
+        <Scrubber time="08:40" pct={84} tone="ink" />
         <div class="intro">
           <h2 class="display-m intro-title">For firms that already get results from webinars.</h2>
           <p class="intro-text">Canopy is for professional-services firms that have seen webinars lead to new work but can't run them on a regular schedule, usually because the logistics fall to people with full workloads.</p>
@@ -257,7 +267,7 @@ const FIT = [
     </section>
 
     <!-- 8. Closing CTA -->
-    <Closing scrubber={{ time: '09:15', label: 'Next up', pct: 100 }} />
+    <Closing scrubber={{ time: '09:15', pct: 100 }} />
   </main>
 
   <Footer current="/" />
@@ -270,19 +280,20 @@ const FIT = [
   .home-hero { gap: 28px; }
   .home-hero .hero-title { text-wrap: balance; }
   .home-hero .hero-lead { max-width: 640px; }
+  .hero-values { display: flex; flex-direction: column; gap: 10px; margin-top: -8px; }
+  .hero-values li {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: 12px;
+    align-items: baseline;
+    font-size: var(--text-lead);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .hero-check { color: var(--fern); transform: translateY(1px); }
   .hero-ctas { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; margin-top: 4px; }
   .hero-link, .hero-link:hover { color: var(--paper); font-size: 17px; }
 
-
-  /* Hero rail: the positioning statement over the stage card */
-  .rail-statement {
-    margin: 0 0 32px;
-    font-size: clamp(24px, 2.1vw, 30px);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.05;
-  }
-  .nowrap { white-space: nowrap; }
 
   /* Hero card */
   .stage-card li { border-top: 1px solid var(--moss); }
