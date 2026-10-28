@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Canopy — Color</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap">
+<style>
+body{margin:0}
+a{color:#121C17}a:hover{color:#1E4D38}
+</style>
+</helmet>
+<div style="width: 1440px; height: 900px; box-sizing: border-box; background: #F1F2EC; color: #121C17; font-family: 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif; padding: 64px 72px; display: flex; flex-direction: column; gap: 32px">
+  <div style="display: flex; justify-content: space-between; align-items: baseline">
+    <h2 style="margin: 0; font-size: 44px; font-weight: 800; letter-spacing: -0.035em">Color</h2>
+    <p style="margin: 0; max-width: 560px; font-size: 17px; line-height: 1.5; color: #4F5A54">Mostly green and paper. Orange is the tally light on a camera: it means live, now, act. If everything is orange, nothing is.</p>
+  </div>
+  <div style="display: grid; grid-template-columns: 2.2fr 1.6fr 1.6fr 1fr 0.7fr; gap: 0; flex: 1; border: 1px solid #D9DCD3">
+    <div style="background: #1E4D38; color: #F1F2EC; padding: 28px; display: flex; flex-direction: column; justify-content: space-between">
+      <span style="font-size: 30px; font-weight: 700; letter-spacing: -0.02em">Canopy</span>
+      <div style="display: flex; flex-direction: column; gap: 4px; font-size: 15px; line-height: 1.5"><span>#1E4D38</span><span>RGB 30 77 56</span><span style="color: #CFDCCF">Primary fields, mark, buttons</span></div>
+    </div>
+    <div style="background: #F1F2EC; color: #121C17; padding: 28px; display: flex; flex-direction: column; justify-content: space-between; border-left: 1px solid #D9DCD3">
+      <span style="font-size: 30px; font-weight: 700; letter-spacing: -0.02em">Paper</span>
+      <div style="display: flex; flex-direction: column; gap: 4px; font-size: 15px; line-height: 1.5"><span>#F1F2EC</span><span>RGB 241 242 236</span><span style="color: #4F5A54">Default ground</span></div>
+    </div>
+    <div style="background: #121C17; color: #F1F2EC; padding: 28px; display: flex; flex-direction: column; justify-content: space-between">
+      <span style="font-size: 30px; font-weight: 700; letter-spacing: -0.02em">Ink</span>
+      <div style="display: flex; flex-direction: column; gap: 4px; font-size: 15px; line-height: 1.5"><span>#121C17</span><span>RGB 18 28 23</span><span style="color: #A9B8AE">Text, studio surfaces</span></div>
+    </div>
+    <div style="background: #CFDCCF; color: #121C17; padding: 28px; display: flex; flex-direction: column; justify-content: space-between">
+      <span style="font-size: 30px; font-weight: 700; letter-spacing: -0.02em">Fern</span>
+      <div style="display: flex; flex-direction: column; gap: 4px; font-size: 15px; line-height: 1.5"><span>#CFDCCF</span><span>RGB 207 220 207</span><span style="color: #34413A">Quiet fills</span></div>
+    </div>
+    <div style="background: #F0562B; color: #121C17; padding: 28px 20px; display: flex; flex-direction: column; justify-content: space-between">
+      <span style="font-size: 30px; font-weight: 700; letter-spacing: -0.02em">Live</span>
+      <div style="display: flex; flex-direction: column; gap: 4px; font-size: 15px; line-height: 1.5"><span>#F0562B</span><span>240 86 43</span><span>Signals only</span></div>
+    </div>
+  </div>
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px">
+    <div style="display: flex; flex-direction: column; gap: 12px">
+      <span style="font-size: 14px; font-weight: 600; color: #4F5A54">Proportion</span>
+      <div style="display: flex; height: 20px">
+        <span style="flex: 45; background: #F1F2EC; border: 1px solid #D9DCD3; display: block"></span>
+        <span style="flex: 30; background: #1E4D38; display: block"></span>
+        <span style="flex: 17; background: #121C17; display: block"></span>
+        <span style="flex: 6; background: #CFDCCF; display: block"></span>
+        <span style="flex: 2; background: #F0562B; display: block"></span>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 12px">
+      <span style="font-size: 14px; font-weight: 600; color: #4F5A54">Supporting text</span>
+      <div style="display: flex; gap: 16px; font-size: 15px; line-height: 1.5"><span style="width: 20px; height: 20px; background: #4F5A54; display: block"></span><span>Stone #4F5A54 — secondary copy on Paper (6.4:1)</span></div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 12px">
+      <span style="font-size: 14px; font-weight: 600; color: #4F5A54">Pairing rule</span>
+      <span style="font-size: 15px; line-height: 1.5">Live carries Ink text, never white. White and Paper sit on Canopy and Ink. No gradients, no tints of Live.</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

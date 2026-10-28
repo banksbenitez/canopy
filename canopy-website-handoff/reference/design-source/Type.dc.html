@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Canopy — Typography</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap">
+<style>
+body{margin:0}
+a{color:#121C17}a:hover{color:#1E4D38}
+</style>
+</helmet>
+<div style="width: 1440px; height: 900px; box-sizing: border-box; background: #F1F2EC; color: #121C17; font-family: 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif; display: grid; grid-template-columns: 560px 1fr">
+  <div style="background: #121C17; color: #F1F2EC; padding: 64px 64px; display: flex; flex-direction: column; justify-content: space-between">
+    <h2 style="margin: 0; font-size: 44px; font-weight: 800; letter-spacing: -0.035em">Type</h2>
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <span style="font-size: 260px; font-weight: 800; letter-spacing: -0.06em; line-height: 0.8">Aa</span>
+      <span style="font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin-top: 24px">Schibsted Grotesk</span>
+      <span style="font-size: 16px; line-height: 1.5; color: #A9B8AE">One family, used everywhere. A newspaper grotesk: sturdy enough for a pitch to a law firm, warm enough for a LinkedIn post. Free on Google Fonts. Fallback: Helvetica Neue, Arial.</span>
+    </div>
+    <div style="display: flex; gap: 28px; font-size: 22px">
+      <span style="font-weight: 400">Regular</span>
+      <span style="font-weight: 500">Medium</span>
+      <span style="font-weight: 700">Bold</span>
+      <span style="font-weight: 800">Extrabold</span>
+    </div>
+  </div>
+  <div style="padding: 64px 72px; display: flex; flex-direction: column; gap: 0">
+    <div style="display: grid; grid-template-columns: 150px 1fr; gap: 24px; padding: 0 0 28px; border-bottom: 1px solid #D9DCD3; align-items: baseline">
+      <span style="font-size: 13px; color: #4F5A54; line-height: 1.5">Display<br>Extrabold 96 / 0.92<br>−5% tracking</span>
+      <span style="font-size: 96px; font-weight: 800; letter-spacing: -0.05em; line-height: 0.92">Fill the room.</span>
+    </div>
+    <div style="display: grid; grid-template-columns: 150px 1fr; gap: 24px; padding: 28px 0; border-bottom: 1px solid #D9DCD3; align-items: baseline">
+      <span style="font-size: 13px; color: #4F5A54; line-height: 1.5">Headline<br>Bold 48 / 1.0<br>−3% tracking</span>
+      <span style="font-size: 48px; font-weight: 700; letter-spacing: -0.03em; line-height: 1">The recording is where the work starts.</span>
+    </div>
+    <div style="display: grid; grid-template-columns: 150px 1fr; gap: 24px; padding: 28px 0; border-bottom: 1px solid #D9DCD3; align-items: baseline">
+      <span style="font-size: 13px; color: #4F5A54; line-height: 1.5">Subhead<br>Bold 26 / 1.2</span>
+      <span style="font-size: 26px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.2">Every registrant, every question, every clip — handed back to you.</span>
+    </div>
+    <div style="display: grid; grid-template-columns: 150px 1fr; gap: 24px; padding: 28px 0; border-bottom: 1px solid #D9DCD3; align-items: baseline">
+      <span style="font-size: 13px; color: #4F5A54; line-height: 1.5">Body<br>Regular 18 / 1.55</span>
+      <span style="font-size: 18px; line-height: 1.55; max-width: 620px">We build the registration page, write the reminder emails, brief your speakers, run the production and cut the highlights. Your team prepares the talk. That's the whole job on your side.</span>
+    </div>
+    <div style="display: grid; grid-template-columns: 150px 1fr; gap: 24px; padding: 28px 0; align-items: baseline">
+      <span style="font-size: 13px; color: #4F5A54; line-height: 1.5">Label<br>Semibold 14<br>sentence case</span>
+      <div style="display: flex; gap: 32px; font-size: 14px; font-weight: 600"><span>Thursday, 2:00 pm ET</span><span>45 minutes</span><span style="display: flex; align-items: center; gap: 8px"><span style="width: 8px; height: 8px; border-radius: 50%; background: #F0562B; display: block"></span>Live now</span></div>
+    </div>
+    <p style="margin: auto 0 0; font-size: 14px; line-height: 1.5; color: #4F5A54">Headlines end in a period. Sentence case everywhere — no all-caps eyebrows, no title case. Numerals stay lining.</p>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
