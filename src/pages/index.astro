@@ -54,11 +54,11 @@ const FIT = [
 
     <div slot="rail" class="rail-list">
     <p class="rail-statement"><span class="nowrap">Webinars-as-a-service</span> for <span class="nowrap">professional-services</span> firms</p>
-    <ul class="stage-card">
+    <ul class="stage-card icons-ink">
       {STAGES.map((stage) => (
         <li>
           <a href={`/how-it-works#${stage.id}`} class="stage-row">
-            <span class:list={['key', stage.id]} aria-hidden="true"></span>
+            <Icon name={STAGE_ICONS[stage.id]} size={40} />
             <span class="stage-text">
               <span class="stage-name">{stage.name}.</span>
               <span class="stage-summary">{stage.summary}</span>
@@ -273,11 +273,6 @@ const FIT = [
   .hero-ctas { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; margin-top: 4px; }
   .hero-link, .hero-link:hover { color: var(--paper); font-size: 17px; }
 
-  /* Stage keys: one color per stage, shared by the hero card and the timeline */
-  .key { display: block; flex: none; width: 14px; height: 14px; }
-  .key.before { background: var(--fern); }
-  .key.during { background: var(--live); }
-  .key.after { background: var(--canopy); border: 1px solid var(--line-green); }
 
   /* Hero rail: the positioning statement over the stage card */
   .rail-statement {
@@ -294,14 +289,13 @@ const FIT = [
   .stage-card li:last-child { border-bottom: 1px solid var(--moss); }
   .stage-row {
     display: grid;
-    grid-template-columns: 22px 1fr;
-    gap: 14px;
+    grid-template-columns: 40px 1fr;
+    gap: 16px;
     padding: 24px 0;
     color: var(--paper);
     text-decoration: none;
-    align-items: baseline;
+    align-items: start;
   }
-  .stage-row .key { transform: translateY(1px); }
   .stage-text { display: flex; flex-direction: column; gap: 6px; }
   .stage-name { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
   .stage-summary { font-size: var(--text-small); color: var(--sage); line-height: 1.45; }
