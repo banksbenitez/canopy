@@ -14,6 +14,13 @@ a:hover { color: var(--ink); }
 
 img, svg { display: block; }
 
+/* Icon colors, set on the element whose background the icons sit on.
+   Values from canopy-icons-kit/docs/ICONS.md. */
+.icons-paper  { --icon-primary: var(--canopy); --icon-secondary: #8FB39B; --icon-cutout: var(--paper); }
+.icons-white  { --icon-primary: var(--canopy); --icon-secondary: #8FB39B; --icon-cutout: var(--white); }
+.icons-ink    { --icon-primary: var(--paper); --icon-secondary: var(--line-green); --icon-cutout: var(--ink); }
+.icons-canopy { --icon-primary: var(--paper); --icon-secondary: #8FB39B; --icon-cutout: var(--canopy); }
+
 /* Paper sections share one container */
 .container {
   max-width: var(--container);

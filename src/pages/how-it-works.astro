@@ -4,6 +4,7 @@ import SplitHero from '../components/SplitHero.astro';
 import Scrubber from '../components/Scrubber.astro';
 import Closing from '../components/Closing.astro';
 import Footer from '../components/Footer.astro';
+import Icon from '../components/Icon.astro';
 import { STAGES } from '../data/stages';
 import { STEPS } from '../data/steps';
 
@@ -81,7 +82,7 @@ const SETUP = [
                   <p class="step-text">{step.text}</p>
                   {step.items.length > 0 && (
                     <ul class="items">
-                      {step.items.map((item) => <li>{item}</li>)}
+                      {step.items.map(([item, icon]) => <li><Icon name={icon} size={32} /><span>{item}</span></li>)}
                     </ul>
                   )}
                 </li>
@@ -146,6 +147,8 @@ const SETUP = [
     --box-border: var(--line);
     --muted: var(--stone);
   }
+  .phase { --icon-primary: var(--canopy); --icon-secondary: #8FB39B; --icon-cutout: var(--paper); }
+  .phase.ink { --icon-primary: var(--paper); --icon-secondary: var(--line-green); --icon-cutout: var(--ink); }
   .phase.ink {
     background: var(--ink);
     color: var(--paper);
@@ -195,19 +198,12 @@ const SETUP = [
   .step-text { margin: 0 0 0 52px; font-size: 17px; line-height: 1.5; color: var(--desc); max-width: 620px; }
   .items { margin-left: 52px; display: flex; flex-direction: column; }
   .items li {
-    padding: 8px 0 8px 18px;
-    position: relative;
+    padding: 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
     font-size: var(--text-small);
     line-height: 1.4;
-  }
-  .items li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 18px;
-    width: 8px;
-    height: 2px;
-    background: currentColor;
   }
   @media (max-width: 559px) {
     .step-head { grid-template-columns: 1fr; gap: 4px; }

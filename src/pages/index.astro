@@ -5,6 +5,8 @@ import Scrubber from '../components/Scrubber.astro';
 import Closing from '../components/Closing.astro';
 import Footer from '../components/Footer.astro';
 import Mark from '../components/Mark.astro';
+import Icon from '../components/Icon.astro';
+import type { IconName } from '../data/icons';
 import { STAGES } from '../data/stages';
 import { STEPS } from '../data/steps';
 import { FAQ } from '../data/faq';
@@ -19,12 +21,14 @@ const COMPARISON = [
   ['No clear read on what worked', 'An analytics report within a week'],
 ];
 
-const ASSETS = [
-  { type: 'data', name: 'Data.', text: 'The attendee and registration list, ready for your CRM and email platform, plus an analytics report.' },
-  { type: 'email', name: 'Follow-up.', text: 'Emails with the recording, transcript and highlights, built around your call to action.' },
-  { type: 'clip', name: 'Clips.', text: 'Short highlights for LinkedIn, short-form video, email and your site.' },
-  { type: 'news', name: 'Newsletter material.', text: 'Clips and the transcript, ready for your editorial team to write up or link.' },
-  { type: 'library', name: 'Library.', text: 'Every webinar and highlight in one evergreen place.' },
+const STAGE_ICONS: Record<string, IconName> = { before: 'registrants', during: 'live-stream', after: 'analytics-report' };
+
+const ASSETS: { icon: IconName; name: string; text: string }[] = [
+  { icon: 'audience-data', name: 'Data.', text: 'The attendee and registration list, ready for your CRM and email platform, plus an analytics report.' },
+  { icon: 'newsletter', name: 'Follow-up.', text: 'Emails with the recording, transcript and highlights, built around your call to action.' },
+  { icon: 'clips', name: 'Clips.', text: 'Short highlights for LinkedIn, short-form video, email and your site.' },
+  { icon: 'transcript', name: 'Newsletter material.', text: 'Clips and the transcript, ready for your editorial team to write up or link.' },
+  { icon: 'video-library', name: 'Library.', text: 'Every webinar and highlight in one evergreen place.' },
 ];
 
 const FIT = [
@@ -121,6 +125,7 @@ const FIT = [
       <div class="stages">
         {STAGES.map((stage) => (
           <div class:list={['stage-col', stage.id]}>
+            <Icon name={STAGE_ICONS[stage.id]} size={56} class="stage-icon" />
             <div class="stage-head">
               <span class="stage-label">
                 {stage.id === 'during' && <span class="dot stage-dot"></span>}
@@ -153,10 +158,10 @@ const FIT = [
           <h2 class="display-m intro-title">One webinar, eight weeks of content.</h2>
           <p class="intro-text">After every session, we hand back a set of assets your team can use for weeks, including with prospects who didn't attend.</p>
         </div>
-        <ul class="assets">
+        <ul class="assets icons-white">
           {ASSETS.map((asset) => (
             <li class="asset">
-              <span class:list={['key', asset.type]} aria-hidden="true"></span>
+              <Icon name={asset.icon} size={44} class="asset-icon" />
               <h3>{asset.name}</h3>
               <p>{asset.text}</p>
             </li>
@@ -212,10 +217,10 @@ const FIT = [
             </div>
           </div>
         </div>
-        <div class="price-panel">
+        <div class="price-panel icons-ink">
           <h3 class="panel-label"><span class="dot"></span>Every month includes:</h3>
           <ul class="panel-list">
-            {MONTHLY.map((item) => <li>{item}</li>)}
+            {MONTHLY.map(([item, icon]) => <li><Icon name={icon} size={24} /><span>{item}</span></li>)}
           </ul>
         </div>
       </div>
@@ -412,6 +417,11 @@ const FIT = [
     --foot: var(--fern);
   }
   .stage-col.before { background: var(--white); color: var(--ink); border-top: 6px solid var(--fern); }
+  /* Icon colors per column background (ICONS.md) */
+  .stage-col.before { --icon-primary: var(--canopy); --icon-secondary: #8FB39B; --icon-cutout: var(--white); }
+  .stage-col.during { --icon-primary: var(--paper); --icon-secondary: var(--line-green); --icon-cutout: var(--ink); }
+  .stage-col.after { --icon-primary: var(--paper); --icon-secondary: #8FB39B; --icon-cutout: var(--canopy); }
+  .stage-icon { margin-bottom: -4px; }
   .stage-col.during { background: var(--ink); color: var(--paper); border: 1px solid var(--moss); border-top: 6px solid var(--live); --rule: var(--moss); --muted: var(--sage); --foot: var(--field); }
   .stage-col.after { background: var(--canopy); color: var(--paper); border-top: 6px solid var(--ink); --rule: var(--line-green); --muted: var(--fern); --foot: var(--canopy-shade); }
   .stage-head { display: flex; flex-direction: column; gap: 6px; }
@@ -456,12 +466,7 @@ const FIT = [
   @media (min-width: 600px) {
     .asset { min-height: 220px; }
   }
-  .asset .key { margin-bottom: 8px; }
-  .key.email { background: var(--ink); }
-  .key.clip { background: var(--live); }
-  .key.news { background: var(--fern); }
-  .key.data { border: 1px solid var(--stone); }
-  .key.library { background: var(--canopy); border: 1px solid var(--line-green); }
+  .asset-icon { margin-bottom: 4px; }
   .asset h3 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.015em; }
   .asset p { margin: 0; font-size: var(--text-small); line-height: 1.5; color: var(--stone); }
 
@@ -522,7 +527,7 @@ const FIT = [
   }
   .panel-label { margin: 0; display: flex; align-items: center; gap: 8px; font-size: var(--text-label); font-weight: 600; }
   .panel-list { display: flex; flex-direction: column; font-size: var(--text-small); line-height: 1.4; color: var(--sage); }
-  .panel-list li { padding: 10px 0; border-top: 1px solid var(--moss); }
+  .panel-list li { padding: 10px 0; border-top: 1px solid var(--moss); display: flex; align-items: center; gap: 12px; }
   .panel-list li:last-child { border-bottom: 1px solid var(--moss); }
 
   /* Fit + FAQ */

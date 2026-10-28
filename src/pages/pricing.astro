@@ -4,6 +4,7 @@ import SplitHero from '../components/SplitHero.astro';
 import Scrubber from '../components/Scrubber.astro';
 import Closing from '../components/Closing.astro';
 import Footer from '../components/Footer.astro';
+import Icon from '../components/Icon.astro';
 import { RENEWAL_TERMS } from '../config';
 import { FAQ as SHARED_FAQ } from '../data/faq';
 import { PRICE_HEADLINE, PRICE_SUBHEAD, FINE_PRINT, SETUP_INCLUDES, MONTHLY } from '../data/pricing';
@@ -49,11 +50,11 @@ const FAQ: [string, string][] = [
   <main>
     <section class="container stack">
       <Scrubber time="08:00" label="The investment" pct={30} />
-      <div class="get-card">
+      <div class="get-card icons-canopy">
         <div class="get-main">
           <h2 class="get-title">Every month includes:</h2>
           <ul class="monthly">
-            {MONTHLY.map((item) => <li>{item}</li>)}
+            {MONTHLY.map(([item, icon]) => <li><Icon name={icon} size={32} /><span>{item}</span></li>)}
           </ul>
         </div>
         <div class="setup-panel">
@@ -121,7 +122,7 @@ const FAQ: [string, string][] = [
     font-weight: 700;
     letter-spacing: -0.015em;
   }
-  .monthly li { padding: 12px 0; border-top: 1px solid var(--line-green); }
+  .monthly li { padding: 12px 0; border-top: 1px solid var(--line-green); display: flex; align-items: center; gap: 14px; }
   .monthly { border-bottom: 1px solid var(--line-green); }
 
   .setup-panel {
