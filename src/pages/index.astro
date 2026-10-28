@@ -8,29 +8,29 @@ import Mark from '../components/Mark.astro';
 import { CALENDAR, LEGEND } from '../data/calendar';
 
 const WHAT_WE_RUN = [
-  { n: '01', title: 'Fill the room', text: 'Registration, reminders, speakers, promotion.', href: '/how-it-works#before' },
-  { n: '02', title: 'Run the room', text: 'Production, backstage, chat, Q&A, polls.', href: '/how-it-works#live', live: true },
-  { n: '03', title: 'Work the recording', text: 'Clips, transcripts, follow-ups, a library, a report.', href: '/how-it-works#after' },
+  { title: 'Fill the room', text: 'Registration, reminders, speakers, promotion.', href: '/how-it-works#before' },
+  { title: 'Run the room', text: 'Production, backstage, chat, Q&A, polls.', href: '/how-it-works#live' },
+  { title: 'Work the recording', text: 'Clips, transcripts, follow-ups, a library, a report.', href: '/how-it-works#after' },
 ];
 
 const PHASES = [
   {
     tone: 'before',
-    label: '01 · Before',
+    label: 'Before',
     title: 'Decides who shows up.',
     items: ['Registration page', 'Confirmation and reminder emails', 'Speaker logistics and prep', 'Promo copy for email and social'],
     you: 'pick the topic',
   },
   {
     tone: 'live',
-    label: '02 · Live',
+    label: 'Live',
     title: 'Decides how it lands.',
     items: ['Audio and video production', 'Private speaker backstage', 'Waiting room, chat, Q&A, polls', 'Live to LinkedIn and YouTube'],
     you: 'give the talk',
   },
   {
     tone: 'after',
-    label: '03 · After',
+    label: 'After',
     title: "Decides what it's worth.",
     items: ['Attendee data for your CRM', 'Recording, transcript, clips', 'Follow-up emails and newsletter copy', 'A growing video library', 'Analytics report'],
     you: 'follow up',
@@ -62,7 +62,6 @@ const INCLUDED = ['Registration', 'Reminders', 'Speaker logistics', 'Promotion',
       <span class="rail-label">What we run</span>
       {WHAT_WE_RUN.map((row) => (
         <a href={row.href} class="run-row">
-          <span class:list={['run-n', { live: row.live }]}>{row.n}</span>
           <span class="run-text">
             <span class="run-title">{row.title}</span>
             <span class="run-desc">{row.text}</span>
@@ -199,17 +198,13 @@ const INCLUDED = ['Registration', 'Reminders', 'Speaker logistics', 'Promotion',
 
   /* Rail: what we run */
   .run-row {
-    display: grid;
-    grid-template-columns: 52px 1fr;
-    gap: 16px;
+    display: block;
     padding: 24px 0;
     border-top: 1px solid var(--moss);
     color: var(--paper);
     text-decoration: none;
   }
   .run-row:last-child { border-bottom: 1px solid var(--moss); }
-  .run-n { font-size: var(--text-label); color: var(--lichen); font-weight: 600; }
-  .run-n.live { color: var(--live); }
   .run-text { display: flex; flex-direction: column; gap: 6px; }
   .run-title { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
   .run-desc { font-size: var(--text-small); color: var(--sage); line-height: 1.45; }
