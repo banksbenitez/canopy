@@ -1,0 +1,7 @@
+---
+import { CONTACT_EMAIL, isPlaceholder } from '../config';
+const { class: className } = Astro.props;
+---
+{isPlaceholder(CONTACT_EMAIL)
+  ? <span class={className}>{CONTACT_EMAIL}</span>
+  : <a class={className} href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>}

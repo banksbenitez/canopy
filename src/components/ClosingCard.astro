@@ -1,0 +1,79 @@
+---
+// The "reminder email" call-to-action at the bottom of content pages.
+// The meta line goes in the default slot.
+import Mark from './Mark.astro';
+import Scrubber from './Scrubber.astro';
+
+interface Props {
+  heading: string;
+  /** Home shows a scrubber above the card and sits flush under the previous section. */
+  scrubber?: { time: string; label: string; pct: number };
+}
+const { heading, scrubber } = Astro.props;
+---
+<section class:list={['container', 'closing', { flush: scrubber }]}>
+  {scrubber && <Scrubber {...scrubber} />}
+  <div class="card">
+    <div class="main">
+      <span class="soon"><span class="dot"></span>Starting soon</span>
+      <h2>{heading}</h2>
+      <span class="meta"><slot /></span>
+    </div>
+    <div class="side">
+      <a href="/book" class="btn btn-ink join">Join the call</a>
+      <span class="credit">Produced with <Mark width={16} height={12} /><strong>canopy</strong></span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .closing { display: flex; flex-direction: column; gap: 40px; }
+  .flush { padding-top: 0; }
+  .card {
+    background: var(--white);
+    border: 1px solid var(--line-strong);
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .main {
+    flex: 999 1 460px;
+    padding: clamp(24px, 3.5vw, 44px);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    border-right: 1px solid var(--line-soft);
+  }
+  .soon {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--text-label);
+    font-weight: 600;
+    color: var(--stone);
+  }
+  h2 {
+    margin: 0;
+    font-size: var(--display-s);
+    font-weight: 800;
+    letter-spacing: var(--tracking-wordmark);
+    line-height: 0.98;
+  }
+  .meta { font-size: 17px; color: var(--stone); }
+  .side {
+    flex: 1 1 280px;
+    padding: clamp(24px, 3.5vw, 44px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .join { align-self: flex-start; font-size: 18px; padding: 16px 24px; min-height: 54px; }
+  .credit {
+    font-size: var(--text-meta);
+    color: var(--stone);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .credit strong { font-weight: 800; letter-spacing: -0.04em; }
+</style>

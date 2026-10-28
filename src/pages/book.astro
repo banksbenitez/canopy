@@ -1,0 +1,248 @@
+---
+import Base from '../layouts/Base.astro';
+import SplitHero from '../components/SplitHero.astro';
+import Footer from '../components/Footer.astro';
+import ContactEmail from '../components/ContactEmail.astro';
+import { FORM_ENDPOINT, RESPONSE_TIME, SCHEDULING_URL, isPlaceholder } from '../config';
+
+const ON_THE_CALL = ['How you run webinars today', 'Who you want in the room', 'What your first month with Canopy looks like'];
+const FREQUENCIES = ['Not yet', 'A few times a year', 'Roughly monthly', 'More than monthly'];
+
+const FIELDS = [
+  { id: 'name', label: 'Name', type: 'text', autocomplete: 'name', error: 'Add your name so we know who to reply to.' },
+  { id: 'email', label: 'Work email', type: 'email', autocomplete: 'email', error: "That email doesn't look right." },
+  { id: 'company', label: 'Company', type: 'text', autocomplete: 'organization', error: 'Which company is this for?' },
+];
+---
+<Base title="Book a call — Canopy" description="Book a 20-minute call about your webinars." path="/book">
+  <div class="page">
+    <main class="book-main">
+    <SplitHero current="/book" minHeight={760} menu={false}>
+      <div slot="links" class="stage-links">
+        <a href="/how-it-works">How it works</a>
+        <a href="/pricing">Pricing</a>
+      </div>
+
+      <div class="hero-body">
+        <h1 class="hero-title book-title">Book a 20-minute call.</h1>
+        <p class="hero-lead book-lead">Tell us a little about your webinars. We'll come back with a plan for your first three months.</p>
+      </div>
+
+      <div slot="meta" class="on-call">
+        <h2 class="on-call-label">On the call</h2>
+        <ol>
+          {ON_THE_CALL.map((item, i) => (
+            <li><span class="n">{String(i + 1).padStart(2, '0')}</span><span>{item}</span></li>
+          ))}
+        </ol>
+      </div>
+
+      <Fragment slot="rail">
+        <span class="request"><span class="dot request-dot"></span>Request a call</span>
+
+        <form
+          name="book-call"
+          method="POST"
+          action={FORM_ENDPOINT}
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          data-book-form
+          class="form"
+        >
+          <input type="hidden" name="form-name" value="book-call" />
+          <p class="visually-hidden" aria-hidden="true">
+            <label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+          </p>
+
+          {FIELDS.map((f) => (
+            <div class="field">
+              <label for={f.id}>{f.label}</label>
+              <input id={f.id} name={f.id} type={f.type} autocomplete={f.autocomplete} required aria-describedby={`${f.id}-error`} />
+              <p id={`${f.id}-error`} class="error" data-error={f.error} hidden></p>
+            </div>
+          ))}
+
+          <div class="field">
+            <label for="freq">How often do you run webinars today?</label>
+            <select id="freq" name="freq">
+              {FREQUENCIES.map((opt) => <option>{opt}</option>)}
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="notes">Anything we should know? <span class="optional">Optional</span></label>
+            <textarea id="notes" name="notes" rows="3"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-live btn-lg submit">Request a call</button>
+          <p class="error submit-error" data-submit-error hidden>That didn't go through. Try again, or email us at <ContactEmail />.</p>
+          <p class="direct">
+            Or pick a time directly: {isPlaceholder(SCHEDULING_URL)
+              ? '[scheduling link]'
+              : <a href={SCHEDULING_URL}>{SCHEDULING_URL.replace(/^https?:\/\//, '')}</a>}
+          </p>
+        </form>
+
+        <div class="sent" data-book-sent hidden tabindex="-1" role="status">
+          <h2>Thanks. You're on the run sheet.</h2>
+          <p>Expect a reply from a real person at <ContactEmail /> within {RESPONSE_TIME}.</p>
+          <button type="button" class="reset" data-book-reset>Send another</button>
+        </div>
+      </Fragment>
+    </SplitHero>
+    </main>
+
+    <Footer current="/book" bordered />
+  </div>
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-book-form]');
+  const sent = document.querySelector<HTMLElement>('[data-book-sent]');
+  const submitError = document.querySelector<HTMLElement>('[data-submit-error]');
+
+  if (form && sent && submitError) {
+    // JS takes over validation so errors render inline in the brand style.
+    // Without JS the browser's own required/email checks still apply.
+    form.noValidate = true;
+    const required = Array.from(form.querySelectorAll<HTMLInputElement>('input[required]'));
+
+    const check = (input: HTMLInputElement) => {
+      const error = document.getElementById(`${input.id}-error`)!;
+      const valid = input.value.trim() !== '' && input.checkValidity();
+      input.setAttribute('aria-invalid', String(!valid));
+      error.textContent = valid ? '' : error.dataset.error!;
+      error.hidden = valid;
+      return valid;
+    };
+
+    // Clear an error as soon as the field is fixed. (Re-checking on blur would
+    // shift the layout under the pointer when the user clicks submit.)
+    required.forEach((input) =>
+      input.addEventListener('input', () => {
+        if (input.getAttribute('aria-invalid') === 'true') check(input);
+      }),
+    );
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submitError.hidden = true;
+      const invalid = required.filter((input) => !check(input));
+      if (invalid.length) {
+        invalid[0].focus();
+        return;
+      }
+
+      const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+      submit.disabled = true;
+      try {
+        const body = new URLSearchParams(new FormData(form) as unknown as Record<string, string>);
+        const res = await fetch(form.getAttribute('action') || '/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json' },
+          body: body.toString(),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        form.hidden = true;
+        sent.hidden = false;
+        sent.focus();
+      } catch {
+        submitError.hidden = false;
+      } finally {
+        submit.disabled = false;
+      }
+    });
+
+    document.querySelector('[data-book-reset]')?.addEventListener('click', () => {
+      form.reset();
+      required.forEach((input) => input.removeAttribute('aria-invalid'));
+      form.hidden = false;
+      sent.hidden = true;
+      required[0].focus();
+    });
+  }
+</script>
+
+<style>
+  .page { background: var(--ink); min-height: 100vh; display: flex; flex-direction: column; }
+  .book-main { flex: 1; display: flex; flex-direction: column; }
+  .book-main > :global(.split) { flex: 1; }
+
+  .stage-links { display: flex; gap: 24px; font-size: var(--text-small); }
+  .stage-links a { color: var(--paper); text-decoration: none; min-height: var(--hit); display: flex; align-items: center; }
+  .stage-links a:hover { text-decoration: underline; }
+
+  .book-title { font-size: clamp(56px, 7.6vw, 116px) !important; }
+  .book-lead { max-width: 520px !important; font-size: clamp(19px, 1.7vw, 23px) !important; }
+
+  .on-call { display: flex; flex-direction: column; }
+  .on-call-label { margin: 0; font-size: var(--text-label); font-weight: 600; color: var(--fern); padding-bottom: 12px; }
+  .on-call ol { list-style: none; margin: 0; padding: 0; }
+  .on-call li {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 16px;
+    padding: 16px 0;
+    border-top: 1px solid var(--line-green);
+    font-size: 19px;
+    align-items: baseline;
+  }
+  .on-call li:last-child { border-bottom: 1px solid var(--line-green); }
+  .n { font-size: var(--text-label); color: var(--fern); font-weight: 600; }
+
+  .request { display: flex; align-items: center; gap: 10px; font-size: var(--text-label); font-weight: 600; }
+  .request-dot { width: 10px; height: 10px; }
+
+  .form { display: flex; flex-direction: column; gap: 20px; }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field label { font-size: var(--text-label); font-weight: 600; }
+  .optional { font-weight: 400; color: var(--sage); }
+  input, select, textarea {
+    font: inherit;
+    font-size: var(--text-body);
+    border: 0;
+    border-bottom: 2px solid var(--lichen);
+    border-radius: var(--radius);
+    background: var(--field);
+    color: var(--paper);
+    padding: 12px 14px;
+    min-height: 50px;
+  }
+  textarea { resize: vertical; }
+  input:focus, select:focus, textarea:focus { outline: 3px solid var(--live); outline-offset: 1px; }
+  input[aria-invalid='true'] { border-bottom-color: var(--live); }
+
+  .error {
+    margin: 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--live);
+    font-size: var(--text-small);
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--live);
+  }
+  .error :global(a) { color: var(--live); }
+
+  .submit { align-self: flex-start; }
+  .submit:disabled { cursor: progress; }
+  .direct { margin: 0; font-size: var(--text-label); color: var(--sage); }
+  .direct a { color: var(--paper); }
+
+  .sent { display: flex; flex-direction: column; gap: 16px; }
+  .sent h2 { margin: 0; font-size: 44px; font-weight: 800; letter-spacing: var(--tracking-wordmark); line-height: 0.95; }
+  .sent p { margin: 0; font-size: var(--text-body); line-height: 1.5; color: var(--sage); }
+  .sent :global(a) { color: var(--paper); }
+  .reset {
+    align-self: flex-start;
+    background: transparent;
+    border: 1px solid var(--paper);
+    border-radius: var(--radius);
+    color: var(--paper);
+    font: inherit;
+    font-size: var(--text-small);
+    font-weight: 600;
+    padding: 12px 18px;
+    min-height: var(--hit);
+    cursor: pointer;
+  }
+</style>

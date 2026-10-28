@@ -1,0 +1,169 @@
+---
+import Base from '../layouts/Base.astro';
+import SplitHero from '../components/SplitHero.astro';
+import Scrubber from '../components/Scrubber.astro';
+import ClosingCard from '../components/ClosingCard.astro';
+import Footer from '../components/Footer.astro';
+import { RENEWAL_TERMS } from '../config';
+
+const NUMBERS = [
+  { value: '$2,500', label: 'per month, one webinar', big: true },
+  { value: '$2,000', label: 'one-time setup' },
+  { value: '3 months', label: 'initial term' },
+];
+
+const MONTHLY = [
+  'Coordination', 'Speaker logistics', 'Registration page', 'Email sequence', 'Promotional copy',
+  'Live production', 'Recording and clips', 'Follow-up emails', 'Analytics report',
+];
+
+const SETUP = ['Onboarding', 'Branded landing and registration pages', 'Zoom Webinar configuration', 'Email workflows', 'Reporting infrastructure'];
+
+const FAQ = [
+  ['Do we need our own Zoom Webinar license?', 'No. Zoom Webinar is covered in the monthly fee.'],
+  ['What does the setup fee cover?', "Onboarding, your branded landing and registration pages, Zoom Webinar configuration, email workflows and reporting infrastructure. It's paid once."],
+  ['How long do we commit for?', `The initial contract is three months. ${RENEWAL_TERMS}`],
+  ['Can we stream it publicly?', 'Yes. Public webinars can stream live on LinkedIn and YouTube.'],
+  ['What do we actually get afterward?', 'Your attendee list and registration details for your CRM, the full recording, a transcript, highlight clips, follow-up emails, newsletter-ready material and an analytics report.'],
+  ['What do we have to do?', 'Choose the topic and speakers, approve the copy, share it with your audience and give the talk. We handle the rest.'],
+];
+---
+<Base
+  title="Pricing — Canopy"
+  description="$2,500 a month for one fully run webinar, Zoom Webinar included. $2,000 one-time setup, three-month initial term."
+  path="/pricing"
+>
+  <SplitHero current="/pricing">
+    <div class="hero-body">
+      <h1 class="hero-title">One program. One price.</h1>
+      <p class="hero-lead">One professionally run webinar every month, start to finish, with Zoom Webinar included.</p>
+    </div>
+    <span slot="meta" class="hero-meta">Webinars-as-a-service</span>
+
+    <div slot="rail" class="rail-list">
+      <span class="rail-label">The numbers</span>
+      {NUMBERS.map((n) => (
+        <div class="number">
+          <span class:list={['number-value', { big: n.big }]}>{n.value}</span>
+          <span class="number-label">{n.label}</span>
+        </div>
+      ))}
+    </div>
+  </SplitHero>
+
+  <main>
+    <section class="container stack">
+      <Scrubber time="01:00" label="What you get" pct={30} />
+      <div class="get-card">
+        <div class="get-main">
+          <h2 class="get-title">Every month, we run:</h2>
+          <ul class="monthly">
+            {MONTHLY.map((item) => <li>{item}</li>)}
+            <li class="zoom"><span class="dot"></span>Zoom Webinar, included</li>
+          </ul>
+        </div>
+        <div class="setup-panel">
+          <div class="setup-head">
+            <span class="setup-label">Once, at the start</span>
+            <h3>Setup</h3>
+          </div>
+          <ul class="setup-list">
+            {SETUP.map((item) => <li>{item}</li>)}
+          </ul>
+          <a href="/book" class="btn btn-live btn-md setup-cta">Book a call</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="qa">
+      <div class="container stack">
+        <Scrubber time="04:30" label="Q&A" pct={75} />
+        <div class="qa-row">
+          <h2 class="display-m qa-title">Questions from the chat.</h2>
+          <div class="faq">
+            {FAQ.map(([q, a], i) => (
+              <details open={i === 0}>
+                <summary>{q}</summary>
+                <p>{a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <ClosingCard heading="One hour live. Content for months.">
+      20 minutes · a call with Canopy · bring your questions
+    </ClosingCard>
+  </main>
+
+  <Footer current="/pricing" />
+</Base>
+
+<style>
+  ul { list-style: none; margin: 0; padding: 0; }
+
+  /* Rail: the numbers */
+  .number { display: flex; flex-direction: column; gap: 4px; padding: 22px 0; border-top: 1px solid var(--moss); }
+  .number:last-child { border-bottom: 1px solid var(--moss); }
+  .number-value { font-size: 32px; font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
+  .number-value.big { font-size: 48px; font-weight: 800; letter-spacing: var(--tracking-display); }
+  .number-label { font-size: var(--text-small); color: var(--sage); }
+
+  .stack { display: flex; flex-direction: column; gap: 40px; }
+
+  /* What you get */
+  .get-card {
+    background: var(--canopy);
+    color: var(--paper);
+    padding: clamp(24px, 4vw, 52px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+  .get-main { flex: 999 1 460px; display: flex; flex-direction: column; gap: 28px; }
+  .get-title { margin: 0; font-size: clamp(36px, 4.5vw, 64px); line-height: 0.95; font-weight: 800; letter-spacing: var(--tracking-display); }
+  .monthly {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+    gap: 0 32px;
+    font-size: clamp(20px, 1.8vw, 24px);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+  .monthly li { padding: 12px 0; border-top: 1px solid var(--line-green); }
+  .monthly li:nth-last-child(-n + 2) { border-bottom: 1px solid var(--line-green); }
+  /* The reference set this in orange, but orange on green is 2.79:1 (fails AA).
+     The live dot carries the signal instead. */
+  .monthly .zoom { display: flex; align-items: center; gap: 10px; }
+
+  .setup-panel {
+    flex: 1 1 280px;
+    background: var(--ink);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 28px;
+  }
+  .setup-head { display: flex; flex-direction: column; gap: 8px; }
+  .setup-label { font-size: var(--text-label); font-weight: 600; color: var(--sage); }
+  .setup-head h3 { margin: 0; font-size: 36px; font-weight: 800; letter-spacing: -0.04em; }
+  .setup-list { display: flex; flex-direction: column; gap: 10px; font-size: var(--text-small); color: var(--sage); }
+  .setup-cta { align-self: flex-start; }
+
+  /* Q&A */
+  .qa { background: var(--white); border-top: 1px solid var(--line); }
+  .qa-row { display: flex; flex-wrap: wrap; gap: 48px; }
+  .qa-title { flex: 1 1 300px; }
+  .faq { flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; border-top: 3px solid var(--ink); }
+  details { border-bottom: 1px solid var(--line); padding: 20px 0; }
+  summary {
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    min-height: 32px;
+    cursor: pointer;
+  }
+  details p { margin: 12px 0 0; font-size: 17px; line-height: 1.55; color: var(--moss); max-width: 640px; }
+</style>

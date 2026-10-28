@@ -1,0 +1,214 @@
+---
+// Every page opens with this split: green stage (2/3) + ink control rail (1/3).
+// Slots: default = headline block, "meta" = stage bottom line, "rail" = rail content,
+// "links" = text links in the stage's top row (Book page, which has no menu).
+import Mark from './Mark.astro';
+import { NAV } from '../data/nav';
+
+interface Props {
+  current: string;
+  /** Stage min-height in px */
+  minHeight?: number;
+  /** Hamburger + "Book a call" + dropdown menu in the rail. Off on the Book page. */
+  menu?: boolean;
+}
+const { current, minHeight = 640, menu = true } = Astro.props;
+const RailTag = menu ? 'nav' : 'div';
+---
+<header class="split">
+  <div class="stage" style={`--stage-min: ${minHeight}px`}>
+    <div class="stage-top">
+      <a href="/" class="logo" aria-label="Canopy home">
+        <Mark width={44} height={34} />
+        <span class="wordmark">canopy</span>
+      </a>
+      {menu && (
+        <a href="#menu" class="stage-menu" aria-label="Menu">
+          <svg width="26" height="18" viewBox="0 0 26 18" aria-hidden="true" fill="currentColor"><rect y="0" width="26" height="2.5" /><rect y="7.75" width="26" height="2.5" /><rect y="15.5" width="26" height="2.5" /></svg>
+        </a>
+      )}
+      <slot name="links" />
+    </div>
+    <slot />
+    <slot name="meta" />
+  </div>
+
+  <RailTag id={menu ? 'menu' : undefined} aria-label={menu ? 'Main' : undefined} class:list={['rail', { 'rail-form': !menu }]}>
+    {menu && (
+      <>
+        <div class="rail-top">
+          <button type="button" class="menu-toggle" data-menu-toggle aria-label="Menu" aria-expanded="false" aria-controls="site-menu">
+            <span class="icon-open"><svg width="22" height="16" viewBox="0 0 22 16" aria-hidden="true" fill="currentColor"><rect y="0" width="22" height="2" /><rect y="7" width="22" height="2" /><rect y="14" width="22" height="2" /></svg></span>
+            <span class="icon-close" hidden><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2 L16 16 M16 2 L2 16" stroke="currentColor" stroke-width="2" fill="none" /></svg></span>
+          </button>
+          <a href="/book" class="btn btn-live btn-sm">Book a call</a>
+        </div>
+        <div id="site-menu" class="site-menu" hidden>
+          {NAV.map((item) => (
+            <a href={item.href} aria-current={item.href === current ? 'page' : undefined}>{item.label}</a>
+          ))}
+        </div>
+      </>
+    )}
+    <slot name="rail" />
+  </RailTag>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  if (toggle) {
+    const menu = document.getElementById(toggle.getAttribute('aria-controls')!)!;
+    const iconOpen = toggle.querySelector<HTMLElement>('.icon-open')!;
+    const iconClose = toggle.querySelector<HTMLElement>('.icon-close')!;
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Menu');
+      menu.hidden = !open;
+      iconOpen.hidden = open;
+      iconClose.hidden = !open;
+    };
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    // On narrow screens the rail sits below the stage; the small hamburger in
+    // the stage jumps down to it and opens the menu.
+    document.querySelectorAll('.stage-menu').forEach((a) =>
+      a.addEventListener('click', () => {
+        setOpen(true);
+        toggle.focus({ preventScroll: true });
+      }),
+    );
+  }
+</script>
+
+<style>
+  .split { display: flex; flex-wrap: wrap; }
+
+  .stage {
+    flex: 2 1 640px;
+    min-width: 0;
+    min-height: var(--stage-min);
+    background: var(--canopy);
+    color: var(--paper);
+    padding: var(--stage-pad);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 48px;
+  }
+  .stage-top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--paper);
+    text-decoration: none;
+    min-height: var(--hit);
+  }
+  .wordmark {
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: var(--tracking-wordmark);
+    line-height: 1;
+  }
+  .stage-menu {
+    color: var(--paper);
+    min-height: var(--hit);
+    min-width: var(--hit);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  @media (min-width: 960px) {
+    .stage-menu { display: none; }
+  }
+
+  .rail {
+    flex: 1 1 320px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: var(--rail-pad);
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .rail-form { gap: 32px; }
+  .rail-top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+  .menu-toggle {
+    background: transparent;
+    border: 1px solid var(--rail-border);
+    border-radius: var(--radius);
+    color: var(--paper);
+    min-height: var(--hit);
+    min-width: 52px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .menu-toggle span { display: flex; }
+
+  .site-menu {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--moss);
+  }
+  .site-menu a {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--moss);
+    color: var(--paper);
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  /* Shared hero typography for the slotted headline block */
+  .stage :global(.hero-body) { display: flex; flex-direction: column; gap: 28px; }
+  .stage :global(.hero-title) {
+    margin: 0;
+    font-size: var(--display-xl);
+    line-height: 0.9;
+    font-weight: 800;
+    letter-spacing: var(--tracking-display);
+  }
+  .stage :global(.hero-lead) {
+    margin: 0;
+    max-width: 600px;
+    font-size: var(--text-lead);
+    line-height: 1.4;
+    color: var(--fern);
+  }
+  .stage :global(.hero-meta) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 40px;
+    font-size: var(--text-label);
+    color: var(--fern);
+  }
+
+  /* Shared rail-list label ("What we run", "Chapters", "The numbers") */
+  .rail :global(.rail-list) { margin-top: auto; display: flex; flex-direction: column; }
+  .rail :global(.rail-label) {
+    font-size: var(--text-label);
+    font-weight: 600;
+    color: var(--sage);
+    padding-bottom: 16px;
+  }
+</style>

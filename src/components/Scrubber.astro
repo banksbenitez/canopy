@@ -1,0 +1,60 @@
+---
+// Chapter scrubber: timestamp · progress track · section label. Decorative;
+// each section carries its own real heading.
+interface Props {
+  time: string;
+  label: string;
+  /** Playhead position, 0–100 */
+  pct: number;
+  tone?: 'paper' | 'ink' | 'fern';
+  /** Orange timestamp with a live dot */
+  live?: boolean;
+}
+const { time, label, pct, tone = 'paper', live = false } = Astro.props;
+---
+<div class:list={['scrubber', tone]} aria-hidden="true" style={`--pct: ${pct}%`}>
+  {live ? <span class="time live"><span class="dot"></span>{time}</span> : <span>{time}</span>}
+  <span class="track"><span class="fill"></span><span class="head"></span></span>
+  <span>{label}</span>
+</div>
+
+<style>
+  .scrubber {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: var(--text-meta);
+    font-weight: 600;
+    color: var(--stone);
+    --track: var(--line);
+  }
+  .ink { color: var(--sage); --track: var(--moss); }
+  .fern { color: var(--moss); --track: var(--sage); }
+
+  .track {
+    flex: 1;
+    height: 3px;
+    background: var(--track);
+    position: relative;
+    display: block;
+  }
+  .fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: var(--pct);
+    background: var(--live);
+    display: block;
+  }
+  .head {
+    position: absolute;
+    left: var(--pct);
+    top: -4px;
+    width: 11px;
+    height: 11px;
+    margin-left: -5px;
+    border-radius: 50%;
+    background: var(--live);
+    display: block;
+  }
+  .live { color: var(--live); display: flex; align-items: center; gap: 8px; }
+</style>

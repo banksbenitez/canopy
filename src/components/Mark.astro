@@ -1,0 +1,15 @@
+---
+// The Canopy "Crown" mark. Geometry from docs/BRAND.md; do not redraw.
+interface Props {
+  width: number;
+  height: number;
+  fill?: string;
+}
+const { width, height, fill = 'currentColor' } = Astro.props;
+---
+<svg width={width} height={height} viewBox="0 0 44 34" aria-hidden="true" fill={fill}>
+  <path d="M4 24 A8 8 0 0 1 20 24 Z" />
+  <path d="M12 24 A12 12 0 0 1 36 24 Z" />
+  <path d="M28 24 A6 6 0 0 1 40 24 Z" />
+  <rect x="4" y="28" width="36" height="4" />
+</svg>

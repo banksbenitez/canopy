@@ -1,0 +1,378 @@
+---
+import Base from '../layouts/Base.astro';
+import SplitHero from '../components/SplitHero.astro';
+import Scrubber from '../components/Scrubber.astro';
+import ClosingCard from '../components/ClosingCard.astro';
+import Footer from '../components/Footer.astro';
+import Mark from '../components/Mark.astro';
+import { CALENDAR, LEGEND } from '../data/calendar';
+
+const WHAT_WE_RUN = [
+  { n: '01', title: 'Fill the room', text: 'Registration, reminders, speakers, promotion.', href: '/how-it-works#before' },
+  { n: '02', title: 'Run the room', text: 'Production, backstage, chat, Q&A, polls.', href: '/how-it-works#live', live: true },
+  { n: '03', title: 'Work the recording', text: 'Clips, transcripts, follow-ups, a library, a report.', href: '/how-it-works#after' },
+];
+
+const PHASES = [
+  {
+    tone: 'before',
+    label: '01 · Before',
+    title: 'Decides who shows up.',
+    items: ['Registration page', 'Confirmation and reminder emails', 'Speaker logistics and prep', 'Promo copy for email and social'],
+    you: 'pick the topic',
+  },
+  {
+    tone: 'live',
+    label: '02 · Live',
+    title: 'Decides how it lands.',
+    items: ['Audio and video production', 'Private speaker backstage', 'Waiting room, chat, Q&A, polls', 'Live to LinkedIn and YouTube'],
+    you: 'give the talk',
+  },
+  {
+    tone: 'after',
+    label: '03 · After',
+    title: "Decides what it's worth.",
+    items: ['Attendee data for your CRM', 'Recording, transcript, clips', 'Follow-up emails and newsletter copy', 'A growing video library', 'Analytics report'],
+    you: 'follow up',
+  },
+];
+
+const INCLUDED = ['Registration', 'Reminders', 'Speaker logistics', 'Promotion', 'Production', 'Clips and transcript', 'Follow-up', 'Report'];
+---
+<Base
+  title="Canopy — Done-for-you webinars"
+  description="Canopy runs your webinar from the first invite to the last highlight clip: registration, reminders, production, clips and follow-up."
+  path="/"
+>
+  <SplitHero current="/" minHeight={780}>
+    <div class="hero-body home-hero">
+      <h1 class="hero-title">One hour live.<br />Content for months.</h1>
+      <p class="hero-lead">Canopy runs your webinar from the first invite to the last highlight clip, so your team can show up, speak well and get back to work.</p>
+      <div class="hero-ctas">
+        <a href="/book" class="btn btn-live btn-lg">Book a 20-minute call</a>
+        <a href="#runsheet" class="text-cta hero-link">See the whole process</a>
+      </div>
+    </div>
+    <div slot="meta" class="hero-meta">
+      <span>Webinars-as-a-service</span>
+      <span>One webinar a month, fully run</span>
+    </div>
+
+    <div slot="rail" class="rail-list">
+      <span class="rail-label">What we run</span>
+      {WHAT_WE_RUN.map((row) => (
+        <a href={row.href} class="run-row">
+          <span class:list={['run-n', { live: row.live }]}>{row.n}</span>
+          <span class="run-text">
+            <span class="run-title">{row.title}</span>
+            <span class="run-desc">{row.text}</span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </SplitHero>
+
+  <main>
+    <section id="runsheet" class="container section-stack">
+      <Scrubber time="02:10" label="End to end" pct={22} />
+      <div class="intro">
+        <h2 class="display-m intro-title">The live hour is the smallest part.</h2>
+        <p class="intro-text">A webinar that pays for itself takes three jobs. What happens before decides who shows up. What happens after decides what it's worth.</p>
+      </div>
+
+      <div class="timeline-wrap">
+        <div class="timeline" role="img" aria-label="Timeline: about three weeks before, one live hour, then weeks of follow-up and reuse">
+          <div class="tl-before" aria-hidden="true">Before</div>
+          <div class="tl-live" aria-hidden="true">Live</div>
+          <div class="tl-after" aria-hidden="true">After</div>
+        </div>
+        <div class="tl-captions" aria-hidden="true">
+          <span>~3 weeks out</span>
+          <span>1 hour</span>
+          <span>Weeks of follow-up and reuse</span>
+        </div>
+      </div>
+
+      <div class="phases">
+        {PHASES.map((phase) => (
+          <div class:list={['phase', phase.tone]}>
+            <div class="phase-head">
+              <span class="phase-label">
+                {phase.tone === 'live' && <span class="dot phase-dot"></span>}
+                {phase.label}
+              </span>
+              <h3>{phase.title}</h3>
+            </div>
+            <ul class="phase-list">
+              {phase.items.map((item) => <li>{item}</li>)}
+            </ul>
+            <div class="phase-foot">
+              <span class="runs">Canopy runs it</span>
+              <span class="you"><strong>You:</strong> {phase.you}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="all-three">
+        <span class="all-three-text">Most teams only have time for the middle. Canopy runs all three.</span>
+        <a href="/how-it-works" class="text-cta all-three-link">How it works, step by step</a>
+      </div>
+    </section>
+
+    <section class="outputs">
+      <div class="container section-stack">
+        <Scrubber time="05:30" label="What it turns into" pct={46} tone="ink" />
+        <div class="outputs-row">
+          <div class="outputs-intro">
+            <h2 class="display-m">One webinar fills the calendar.</h2>
+            <p class="outputs-text">Everything we hand back after the live hour, and how it keeps working for weeks.</p>
+            <ul class="legend">
+              {LEGEND.map((item) => (
+                <li>
+                  <span class:list={['swatch', item.type]} aria-hidden="true"></span>
+                  <span><strong>{item.name}</strong> <span class="legend-text">{item.text}</span></span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="calendar">
+            <div class="cal-head"><span>The eight weeks after one webinar</span><span>Example schedule</span></div>
+            <ol class="weeks">
+              {CALENDAR.map((week) => (
+                <li class="week">
+                  <span class="week-label">{week.week}</span>
+                  <ul class="chips">
+                    {week.items.map(([type, text]) => (
+                      <li class:list={['chip', type]}>
+                        <span class="visually-hidden">{LEGEND.find((l) => l.type === type)!.name} </span>{text}
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ol>
+            <div class="library"><strong>And permanently: your video library</strong><span>Every webinar and highlight, in one place</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container pricing-teaser">
+      <Scrubber time="08:00" label="Pricing" pct={70} />
+      <div class="price-card">
+        <div class="price-main">
+          <div class="lockup"><Mark width={30} height={23} /><span>canopy</span></div>
+          <h2 class="price-heading">
+            <span class="price">$2,500</span>
+            <span class="price-sub">a month. One webinar, fully run.</span>
+          </h2>
+          <span class="price-meta">$2,000 one-time setup · 3-month initial term · Zoom Webinar included</span>
+        </div>
+        <div class="price-panel">
+          <span class="panel-label"><span class="dot"></span>Included every month</span>
+          <ul class="panel-list">
+            {INCLUDED.map((item) => <li>{item}</li>)}
+          </ul>
+          <a href="/pricing" class="text-cta panel-link">Full pricing</a>
+        </div>
+      </div>
+    </section>
+
+    <ClosingCard heading="Your next webinar, without the work." scrubber={{ time: '09:15', label: 'Next up', pct: 100 }}>
+      20 minutes · a call with Canopy · bring your questions
+    </ClosingCard>
+  </main>
+
+  <Footer current="/" />
+</Base>
+
+<style>
+  ul, ol { list-style: none; margin: 0; padding: 0; }
+
+  /* Hero */
+  .home-hero { gap: 32px; }
+  .home-hero .hero-title { text-wrap: balance; }
+  .home-hero .hero-lead { max-width: 620px; }
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; }
+  .hero-link, .hero-link:hover { color: var(--paper); font-size: 17px; }
+
+  /* Rail: what we run */
+  .run-row {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 16px;
+    padding: 24px 0;
+    border-top: 1px solid var(--moss);
+    color: var(--paper);
+    text-decoration: none;
+  }
+  .run-row:last-child { border-bottom: 1px solid var(--moss); }
+  .run-n { font-size: var(--text-label); color: var(--lichen); font-weight: 600; }
+  .run-n.live { color: var(--live); }
+  .run-text { display: flex; flex-direction: column; gap: 6px; }
+  .run-title { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
+  .run-desc { font-size: var(--text-small); color: var(--sage); line-height: 1.45; }
+
+  /* End to end */
+  .intro {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px 48px;
+  }
+  .intro-title { max-width: 720px; }
+  .intro-text { margin: 0; max-width: 440px; font-size: var(--text-body); line-height: 1.5; color: var(--moss); }
+
+  .timeline-wrap { display: flex; flex-direction: column; gap: 10px; }
+  .timeline { display: flex; height: 72px; font-weight: 700; }
+  .tl-before, .tl-after {
+    display: flex;
+    align-items: center;
+    padding: 0 clamp(12px, 2vw, 24px);
+    font-size: clamp(16px, 1.6vw, 22px);
+    letter-spacing: -0.01em;
+  }
+  .tl-before { flex: 5; background: var(--fern); color: var(--ink); }
+  .tl-after { flex: 6; background: var(--canopy); color: var(--paper); }
+  .tl-live {
+    flex: 0 0 auto;
+    width: clamp(56px, 7vw, 96px);
+    background: var(--live);
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(14px, 1.3vw, 17px);
+  }
+  .tl-captions {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: var(--text-meta);
+    font-weight: 600;
+    color: var(--stone);
+  }
+
+  .phases {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: 24px;
+  }
+  .phase {
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    --rule: var(--line);
+    --muted: var(--stone);
+  }
+  .phase.before { background: var(--white); border-top: 6px solid var(--fern); }
+  .phase.live { background: var(--ink); color: var(--paper); border-top: 6px solid var(--live); --rule: var(--moss); --muted: var(--sage); }
+  .phase.after { background: var(--canopy); color: var(--paper); border-top: 6px solid var(--ink); --rule: var(--line-green); --muted: var(--fern); }
+  .phase-head { display: flex; flex-direction: column; gap: 6px; }
+  .phase-label { font-size: var(--text-label); font-weight: 600; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+  .live .phase-label { color: var(--live); }
+  .phase-dot { width: 8px; height: 8px; }
+  .phase h3 { margin: 0; font-size: 30px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+  .phase-list { display: flex; flex-direction: column; font-size: 17px; line-height: 1.35; }
+  .phase-list li { padding: 11px 0; border-top: 1px solid var(--rule); }
+  .phase-list li:last-child { border-bottom: 1px solid var(--rule); }
+  .phase-foot { margin-top: auto; display: flex; justify-content: space-between; gap: 12px; font-size: var(--text-label); }
+  .runs { color: var(--muted); }
+  .live .you { color: var(--live); }
+
+  .all-three {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding-top: 8px;
+    border-top: 2px solid var(--ink);
+  }
+  .all-three-text { font-size: clamp(19px, 1.8vw, 24px); font-weight: 700; letter-spacing: -0.015em; }
+  .all-three-link { color: var(--ink); font-size: 17px; }
+
+  /* What it turns into */
+  .outputs { background: var(--ink); color: var(--paper); }
+  .outputs-row { display: flex; flex-wrap: wrap; gap: 48px 56px; align-items: flex-start; }
+  .outputs-intro { flex: 1 1 320px; display: flex; flex-direction: column; gap: 28px; }
+  .outputs-text { margin: 0; font-size: var(--text-body); line-height: 1.5; color: var(--sage); }
+  .legend { display: flex; flex-direction: column; gap: 14px; font-size: var(--text-small); line-height: 1.4; }
+  .legend li { display: grid; grid-template-columns: 22px 1fr; gap: 12px; align-items: baseline; }
+  .legend-text { color: var(--sage); }
+  .swatch { width: 14px; height: 14px; display: block; }
+  .swatch.email { background: var(--paper); }
+  .swatch.clip { background: var(--live); }
+  .swatch.news { background: var(--fern); }
+  .swatch.data { border: 1px solid var(--lichen); }
+
+  .calendar { flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+  .cal-head { display: flex; justify-content: space-between; gap: 12px; font-size: var(--text-meta); font-weight: 600; color: var(--sage); }
+  .weeks {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--moss);
+    border: 1px solid var(--moss);
+  }
+  @media (max-width: 559px) {
+    .weeks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  .week {
+    background: var(--ink);
+    padding: 14px 12px 18px;
+    min-height: 190px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .week-label { font-size: 13px; font-weight: 600; color: var(--lichen); padding-bottom: 4px; }
+  .chips { display: flex; flex-direction: column; gap: 8px; }
+  .chip { padding: 8px 10px; font-size: var(--text-meta); font-weight: 600; line-height: 1.25; }
+  .chip.email { background: var(--paper); color: var(--ink); }
+  .chip.clip { background: var(--live); color: var(--ink); }
+  .chip.news { background: var(--fern); color: var(--ink); }
+  .chip.data { border: 1px solid var(--lichen); color: var(--paper); }
+  .library {
+    background: var(--canopy);
+    padding: 16px 18px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+    font-size: var(--text-small);
+  }
+  .library span { color: var(--fern); }
+
+  /* Pricing teaser */
+  .pricing-teaser { display: flex; flex-direction: column; gap: 40px; }
+  .price-card {
+    background: var(--canopy);
+    color: var(--paper);
+    padding: clamp(24px, 4vw, 52px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+  .price-main { flex: 999 1 420px; display: flex; flex-direction: column; justify-content: space-between; gap: 32px; }
+  .lockup { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 800; letter-spacing: var(--tracking-wordmark); }
+  .price-heading { margin: 0; display: flex; flex-direction: column; gap: 12px; }
+  .price { font-size: clamp(64px, 9vw, 128px); font-weight: 800; letter-spacing: -0.055em; line-height: 0.88; }
+  .price-sub { font-size: clamp(24px, 2.4vw, 34px); font-weight: 700; letter-spacing: -0.02em; }
+  .price-meta { font-size: 17px; color: var(--fern); }
+  .price-panel {
+    flex: 1 1 260px;
+    background: var(--ink);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 28px;
+  }
+  .panel-label { display: flex; align-items: center; gap: 8px; font-size: var(--text-label); font-weight: 600; }
+  .panel-list { display: flex; flex-direction: column; gap: 10px; font-size: var(--text-small); color: var(--sage); }
+  .panel-link, .panel-link:hover { color: var(--paper); font-size: var(--text-small); }
+</style>

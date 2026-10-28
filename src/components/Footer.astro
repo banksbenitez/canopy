@@ -1,0 +1,43 @@
+---
+import { NAV } from '../data/nav';
+import ContactEmail from './ContactEmail.astro';
+
+interface Props {
+  /** Current route; it's left out of the footer links. */
+  current: string;
+  /** Hairline on top, for pages whose last section is also ink. */
+  bordered?: boolean;
+}
+const { current, bordered = false } = Astro.props;
+const links = NAV.filter((item) => item.href !== current);
+---
+<footer class:list={['footer', { bordered }]}>
+  <div class="inner">
+    <span class="status"><span class="dot off-air"></span>Off air</span>
+    <span class="links">
+      {links.map((item) => <a href={item.href}>{item.label}</a>)}
+      <ContactEmail />
+    </span>
+  </div>
+</footer>
+
+<style>
+  .footer { background: var(--ink); color: var(--sage); }
+  .bordered { border-top: 1px solid var(--moss); }
+  .inner {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 28px var(--gutter);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    font-size: var(--text-label);
+  }
+  .status { display: flex; align-items: center; gap: 10px; }
+  .off-air { background: var(--off-air); }
+  .links { display: flex; flex-wrap: wrap; gap: 24px; }
+  .links :global(a) { color: var(--sage); }
+  .links :global(a:hover) { color: var(--paper); }
+</style>

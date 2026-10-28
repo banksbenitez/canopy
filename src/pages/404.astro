@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import Mark from '../components/Mark.astro';
+import Footer from '../components/Footer.astro';
+---
+<Base title="Off air — Canopy" description="This page isn't on the run sheet." path="/404" noindex>
+  <div class="page">
+    <main class="stage">
+      <a href="/" class="logo" aria-label="Canopy home">
+        <Mark width={44} height={34} />
+        <span class="wordmark">canopy</span>
+      </a>
+      <div class="body">
+        <h1>Off air.</h1>
+        <p>This page isn't on the run sheet.</p>
+        <a href="/" class="btn btn-live btn-lg back">Back to home</a>
+      </div>
+    </main>
+    <Footer current="" />
+  </div>
+</Base>
+
+<style>
+  .page { min-height: 100vh; display: flex; flex-direction: column; background: var(--ink); }
+  .stage {
+    flex: 1;
+    min-height: 560px;
+    background: var(--canopy);
+    color: var(--paper);
+    padding: var(--stage-pad);
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .logo {
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--paper);
+    text-decoration: none;
+    min-height: var(--hit);
+  }
+  .wordmark { font-size: 34px; font-weight: 800; letter-spacing: var(--tracking-wordmark); line-height: 1; }
+  .body { margin: auto 0; display: flex; flex-direction: column; gap: 28px; }
+  h1 { margin: 0; font-size: var(--display-xl); line-height: 0.9; font-weight: 800; letter-spacing: var(--tracking-display); }
+  p { margin: 0; font-size: var(--text-lead); line-height: 1.4; color: var(--fern); }
+  .back { align-self: flex-start; }
+</style>
