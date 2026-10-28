@@ -2,9 +2,11 @@
 import Base from '../layouts/Base.astro';
 import SplitHero from '../components/SplitHero.astro';
 import Scrubber from '../components/Scrubber.astro';
-import ClosingCard from '../components/ClosingCard.astro';
+import Closing from '../components/Closing.astro';
 import Footer from '../components/Footer.astro';
 import { RENEWAL_TERMS } from '../config';
+import { FAQ as SHARED_FAQ } from '../data/faq';
+import { PRICE_HEADLINE, PRICE_SUBHEAD, FINE_PRINT, SETUP_INCLUDES, MONTHLY } from '../data/pricing';
 
 const NUMBERS = [
   { value: '$2,500', label: 'per month, one webinar', big: true },
@@ -12,20 +14,11 @@ const NUMBERS = [
   { value: '3 months', label: 'initial term' },
 ];
 
-const MONTHLY = [
-  'Coordination', 'Speaker logistics', 'Registration page', 'Email sequence', 'Promotional copy',
-  'Live production', 'Recording and clips', 'Follow-up emails', 'Analytics report',
-];
-
-const SETUP = ['Onboarding', 'Branded landing and registration pages', 'Zoom Webinar configuration', 'Email workflows', 'Reporting infrastructure'];
-
-const FAQ = [
-  ['Do we need our own Zoom Webinar license?', 'No. Zoom Webinar is covered in the monthly fee.'],
+// The shared FAQ plus the two pricing-specific questions.
+const FAQ: [string, string][] = [
+  ...SHARED_FAQ,
   ['What does the setup fee cover?', "Onboarding, your branded landing and registration pages, Zoom Webinar configuration, email workflows and reporting infrastructure. It's paid once."],
   ['How long do we commit for?', `The initial contract is three months. ${RENEWAL_TERMS}`],
-  ['Can we stream it publicly?', 'Yes. Public webinars can stream live on LinkedIn and YouTube.'],
-  ['What do we actually get afterward?', 'Your attendee list and registration details for your CRM, the full recording, a transcript, highlight clips, follow-up emails, newsletter-ready material and an analytics report.'],
-  ['What do we have to do?', 'Choose the topic and speakers, approve the copy, share it with your audience and give the talk. We handle the rest.'],
 ];
 ---
 <Base
@@ -35,10 +28,13 @@ const FAQ = [
 >
   <SplitHero current="/pricing">
     <div class="hero-body">
-      <h1 class="hero-title">One program. One price.</h1>
-      <p class="hero-lead">One professionally run webinar every month, start to finish, with Zoom Webinar included.</p>
+      <h1 class="hero-title pricing-title">
+        <span class="title-price">{PRICE_HEADLINE.price}</span>
+        <span class="title-rest">{PRICE_HEADLINE.rest}</span>
+      </h1>
+      <p class="hero-lead">{PRICE_SUBHEAD}</p>
     </div>
-    <span slot="meta" class="hero-meta">Webinars-as-a-service</span>
+    <span slot="meta" class="hero-meta">Webinars-as-a-service for professional-services firms</span>
 
     <div slot="rail" class="rail-list">
       <span class="rail-label">The numbers</span>
@@ -53,31 +49,28 @@ const FAQ = [
 
   <main>
     <section class="container stack">
-      <Scrubber time="01:00" label="What you get" pct={30} />
+      <Scrubber time="08:00" label="The investment" pct={30} />
       <div class="get-card">
         <div class="get-main">
-          <h2 class="get-title">Every month, we run:</h2>
+          <h2 class="get-title">Every month includes:</h2>
           <ul class="monthly">
             {MONTHLY.map((item) => <li>{item}</li>)}
-            <li class="zoom"><span class="dot"></span>Zoom Webinar, included</li>
           </ul>
         </div>
         <div class="setup-panel">
           <div class="setup-head">
-            <span class="setup-label">Once, at the start</span>
-            <h3>Setup</h3>
+            <span class="setup-label">{FINE_PRINT}</span>
+            <h3>Setup includes:</h3>
+            <p class="setup-text">{SETUP_INCLUDES}</p>
           </div>
-          <ul class="setup-list">
-            {SETUP.map((item) => <li>{item}</li>)}
-          </ul>
-          <a href="/book" class="btn btn-live btn-md setup-cta">Book a call</a>
+          <a href="/book" class="btn btn-live btn-md setup-cta">Book a 20-minute call</a>
         </div>
       </div>
     </section>
 
     <section class="qa">
       <div class="container stack">
-        <Scrubber time="04:30" label="Q&A" pct={75} />
+        <Scrubber time="08:40" label="Q&A" pct={75} />
         <div class="qa-row">
           <h2 class="display-m qa-title">Questions from the chat.</h2>
           <div class="faq">
@@ -92,9 +85,7 @@ const FAQ = [
       </div>
     </section>
 
-    <ClosingCard heading="One hour live. Content for months.">
-      20 minutes · a call with Canopy · bring your questions
-    </ClosingCard>
+    <Closing />
   </main>
 
   <Footer current="/pricing" />
@@ -132,10 +123,7 @@ const FAQ = [
     letter-spacing: -0.015em;
   }
   .monthly li { padding: 12px 0; border-top: 1px solid var(--line-green); }
-  .monthly li:nth-last-child(-n + 2) { border-bottom: 1px solid var(--line-green); }
-  /* The reference set this in orange, but orange on green is 2.79:1 (fails AA).
-     The live dot carries the signal instead. */
-  .monthly .zoom { display: flex; align-items: center; gap: 10px; }
+  .monthly { border-bottom: 1px solid var(--line-green); }
 
   .setup-panel {
     flex: 1 1 280px;
@@ -148,8 +136,10 @@ const FAQ = [
   }
   .setup-head { display: flex; flex-direction: column; gap: 8px; }
   .setup-label { font-size: var(--text-label); font-weight: 600; color: var(--sage); }
-  .setup-head h3 { margin: 0; font-size: 36px; font-weight: 800; letter-spacing: -0.04em; }
-  .setup-list { display: flex; flex-direction: column; gap: 10px; font-size: var(--text-small); color: var(--sage); }
+  .setup-head h3 { margin: 8px 0 0; font-size: 28px; font-weight: 800; letter-spacing: -0.03em; }
+  .setup-text { margin: 0; font-size: var(--text-small); line-height: 1.5; color: var(--sage); }
+  .pricing-title { display: flex; flex-direction: column; gap: 16px; }
+  .title-rest { font-size: clamp(28px, 3.2vw, 48px); line-height: 1; letter-spacing: -0.03em; }
   .setup-cta { align-self: flex-start; }
 
   /* Q&A */

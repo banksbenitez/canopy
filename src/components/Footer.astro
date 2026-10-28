@@ -1,6 +1,7 @@
 ---
 import { NAV } from '../data/nav';
 import ContactEmail from './ContactEmail.astro';
+import Mark from './Mark.astro';
 
 interface Props {
   /** Current route; it's left out of the footer links. */
@@ -13,7 +14,10 @@ const links = NAV.filter((item) => item.href !== current);
 ---
 <footer class:list={['footer', { bordered }]}>
   <div class="inner">
-    <span class="status"><span class="dot off-air"></span>Off air</span>
+    <span class="left">
+      <span class="credit">Produced with <Mark width={16} height={12} /><strong>canopy</strong></span>
+      <span class="status"><span class="dot off-air"></span>Off air</span>
+    </span>
     <span class="links">
       {links.map((item) => <a href={item.href}>{item.label}</a>)}
       <ContactEmail />
@@ -35,6 +39,9 @@ const links = NAV.filter((item) => item.href !== current);
     gap: 16px;
     font-size: var(--text-label);
   }
+  .left { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; }
+  .credit { display: flex; align-items: center; gap: 6px; }
+  .credit strong { font-weight: 800; letter-spacing: -0.04em; color: var(--paper); }
   .status { display: flex; align-items: center; gap: 10px; }
   .off-air { background: var(--off-air); }
   .links { display: flex; flex-wrap: wrap; gap: 24px; }

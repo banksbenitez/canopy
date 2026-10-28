@@ -7,15 +7,16 @@ import { NAV } from '../data/nav';
 
 interface Props {
   current: string;
+  id?: string;
   /** Stage min-height in px */
   minHeight?: number;
   /** Hamburger + "Book a call" + dropdown menu in the rail. Off on the Book page. */
   menu?: boolean;
 }
-const { current, minHeight = 640, menu = true } = Astro.props;
+const { current, id, minHeight = 640, menu = true } = Astro.props;
 const RailTag = menu ? 'nav' : 'div';
 ---
-<header class="split">
+<header id={id} class="split">
   <div class="stage" style={`--stage-min: ${minHeight}px`}>
     <div class="stage-top">
       <a href="/" class="logo" aria-label="Canopy home">

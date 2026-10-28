@@ -1,17 +1,19 @@
 ---
 // The "reminder email" call-to-action at the bottom of content pages.
-// The meta line goes in the default slot.
+// The line under the heading goes in the default slot.
 import Mark from './Mark.astro';
 import Scrubber from './Scrubber.astro';
 
 interface Props {
   heading: string;
-  /** Home shows a scrubber above the card and sits flush under the previous section. */
+  buttonLabel?: string;
+  id?: string;
+  /** Optional chapter scrubber above the card (Home) */
   scrubber?: { time: string; label: string; pct: number };
 }
-const { heading, scrubber } = Astro.props;
+const { heading, buttonLabel = 'Join the call', id, scrubber } = Astro.props;
 ---
-<section class:list={['container', 'closing', { flush: scrubber }]}>
+<section id={id} class="container closing">
   {scrubber && <Scrubber {...scrubber} />}
   <div class="card">
     <div class="main">
@@ -20,7 +22,7 @@ const { heading, scrubber } = Astro.props;
       <span class="meta"><slot /></span>
     </div>
     <div class="side">
-      <a href="/book" class="btn btn-ink join">Join the call</a>
+      <a href="/book" class="btn btn-ink join">{buttonLabel}</a>
       <span class="credit">Produced with <Mark width={16} height={12} /><strong>canopy</strong></span>
     </div>
   </div>
@@ -28,7 +30,6 @@ const { heading, scrubber } = Astro.props;
 
 <style>
   .closing { display: flex; flex-direction: column; gap: 40px; }
-  .flush { padding-top: 0; }
   .card {
     background: var(--white);
     border: 1px solid var(--line-strong);
@@ -58,7 +59,7 @@ const { heading, scrubber } = Astro.props;
     letter-spacing: var(--tracking-wordmark);
     line-height: 0.98;
   }
-  .meta { font-size: 17px; color: var(--stone); }
+  .meta { max-width: 560px; font-size: 17px; line-height: 1.5; color: var(--stone); }
   .side {
     flex: 1 1 280px;
     padding: clamp(24px, 3.5vw, 44px);

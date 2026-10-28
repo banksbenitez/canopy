@@ -1,7 +1,8 @@
 /* Site-wide primitives. Page- and component-specific styles live with their components. */
 
 :root {
-  --line-soft: #E4E6DE; /* divider inside the closing card */
+  --line-soft: #E4E6DE;    /* divider inside the closing card */
+  --canopy-shade: #1A432F; /* footer band inside a canopy card */
 }
 
 body {
